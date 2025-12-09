@@ -152,11 +152,12 @@
 
   /* --- Main Header --- */
   .main-header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 50;
     width: 100%;
+    backdrop-filter: blur(10px);
   }
 
   .header-container {
@@ -166,7 +167,7 @@
     color: var(--color-accent);
     max-width: 1280px;
     width: 90%;
-    margin: 2rem auto;
+    margin: 1.5rem auto;
   }
 
   .header-logo {
