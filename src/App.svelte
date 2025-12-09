@@ -1,11 +1,19 @@
 <script lang="ts">
     import Background from "./lib/Background.svelte";
-    import Counter from "./lib/Counter.svelte";
     import Header from "./lib/Header.svelte";
     import Loader from "./lib/Loader.svelte";
+    import GrainOverlay from "./lib/GrainOverlay.svelte";
+    import Hero from "./lib/Hero.svelte";
+    import Scroll from "./lib/Scroll.svelte";
+    import Projects from "./lib/Projects.svelte";
+    import Dock from "./lib/Dock.svelte";
 </script>
 
 <Loader/>
+<GrainOverlay />
 <Header/>
+<Hero />
+<Scroll/>
 <Background />
-<Counter/>
+<Dock />
+<Projects />

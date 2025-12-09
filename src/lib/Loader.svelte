@@ -5,7 +5,6 @@
     let alreadyPlayed = false;
 
     onMount(() => {
-        // Detect if loader already played in this session
         alreadyPlayed = sessionStorage.getItem("loaderPlayed") === "true";
 
         // If played → instantly hide loader, skip GSAP entirely
