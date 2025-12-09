@@ -8,7 +8,7 @@
     let gridContainer: HTMLDivElement;
     const GLOW_RADIUS = 150;
 
-    let gridSize = 50;
+    let gridSize = $state(50);
 
     if (typeof window !== "undefined") {
         if (window.innerWidth < 480) gridSize = 20;
@@ -104,11 +104,8 @@
     --color-background-primary: #1e1e1e;
   }
 
-  /* -------------------------------------------------
-       GRID
-  ------------------------------------------------- */
   .grid-container {
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: -20;
     display: grid;
@@ -143,15 +140,15 @@
        BACKGROUND OVERLAY
   ------------------------------------------------- */
   .overlay-background {
-    position: absolute;
+    position: fixed;
     inset: 0;
     z-index: -40;
-    background-color: rgba(62, 62, 62, 0.1);
+    background-color: rgba(62, 62, 62, 1);
   }
 
   @media (prefers-color-scheme: dark) {
     .overlay-background {
-      background-color: rgba(62, 62, 62, 0.05);
+      background-color: rgba(0, 0, 0, 0.6);
     }
   }
 </style>
