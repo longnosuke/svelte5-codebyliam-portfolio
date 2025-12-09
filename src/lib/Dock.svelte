@@ -41,6 +41,8 @@
     padding: 12px;
     border-radius: 12px;
     border: 1px solid rgb(44, 44, 44);
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 50;
     backdrop-filter: blur(10px);
   }
 
