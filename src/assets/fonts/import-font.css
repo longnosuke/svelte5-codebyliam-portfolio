@@ -1,0 +1,15 @@
+/* SuisseIntl */
+@font-face {
+  font-family: 'SuisseIntl';
+  src: url('./SuisseIntl-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Apparel */
+@font-face {
+  font-family: 'Apparel';
+  src: url('./Apparel-RegularIt.woff2');
+  font-weight: normal;
+  font-style: normal;
+}
