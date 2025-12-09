@@ -89,6 +89,7 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
+        padding: 0 2rem;
     }
 
     .hero-content {
