@@ -59,34 +59,31 @@
 <header
         class="main-header"
 >
-    <a href="/" class="header-logo"> Liam. </a>
-    <div class="desktop-nav-list">
-        {#each navItems as { title, href }, i (i)}
-            <a href={href} class="desktop-nav-link"> {title} </a>
-        {/each}
-    </div>
+    <div class="header-container">
+        <a href="/" class="header-logo"> Liam. </a>
 
-    <div class="header-controls">
-        <button
-                aria-label="switch menu"
-                class="menu-toggle group"
-                onclick={toggle}
-        >
-            <div class="toggle-icon">
-                <div
-                        class="toggle-line"
-                        class:is-open={isOpen}
-                ></div>
-                <div
-                        class="toggle-line short-line"
-                        class:is-open={isOpen}
-                ></div>
-                <div
-                        class="toggle-line shorter-line"
-                        class:is-open={isOpen}
-                ></div>
-            </div>
-        </button>
+        <div class="header-controls">
+            <button
+                    aria-label="switch menu"
+                    class="menu-toggle group"
+                    onclick={toggle}
+            >
+                <div class="toggle-icon">
+                    <div
+                            class="toggle-line"
+                            class:is-open={isOpen}
+                    ></div>
+                    <div
+                            class="toggle-line short-line"
+                            class:is-open={isOpen}
+                    ></div>
+                    <div
+                            class="toggle-line shorter-line"
+                            class:is-open={isOpen}
+                    ></div>
+                </div>
+            </button>
+        </div>
     </div>
 </header>
 
@@ -109,9 +106,9 @@
 <div bind:this={container}>
     {#if isOpen}
         <div
-                out:fade
-                in:fade={{ delay: 5 * SLIDE_DELAY }}
-                class="fullscreen-menu-overlay"
+            out:fade
+            in:fade={{ delay: 5 * SLIDE_DELAY }}
+            class="fullscreen-menu-overlay"
         >
             <nav>
                 <ul class="fullscreen-nav-list">
@@ -155,21 +152,21 @@
 
   /* --- Main Header --- */
   .main-header {
-    position: fixed;
+    position: absolute;
     top: 0;
-    left: 50%;
+    left: 0;
     z-index: 50;
+    width: 100%;
+  }
+
+  .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
     color: var(--color-accent);
-    transform: translateX(-50%);
-    pointer-events: none;
     max-width: 1280px;
-    width: 100%;
+    width: 90%;
+    margin: 2rem auto;
   }
 
   .header-logo {
@@ -177,20 +174,7 @@
     font-size: 1.25rem;
     font-weight: 500;
     text-transform: capitalize;
-    color: var(--color-accent);
-    text-decoration: none;
-  }
-
-  .desktop-nav-list {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem; /* gap-10 */
-    border-radius: 20px;
-  }
-  .desktop-nav-link {
-    pointer-events: auto;
-    color: var(--color-accent);
-    transition: color 300ms;
+    color: white;
     text-decoration: none;
   }
 
@@ -208,7 +192,6 @@
     padding: 0.5rem 0;
     cursor: pointer;
     transform-origin: center;
-    color: inherit;
   }
 
   .toggle-icon {
@@ -224,7 +207,7 @@
     height: 1px;
     width: 100%;
     border-radius: 0.125rem;
-    background-color: var(--color-accent);
+    background-color: white;
     transition: all 200ms;
   }
 
