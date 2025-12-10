@@ -6,7 +6,6 @@
     import SocialLinks from './SocialLinks.svelte';
     import CtaButton from "./CtaButton.svelte";
     import InfiniteSlideUp from "./InfiniteSlideUp.svelte";
-    import ClickMe from "./ClickMe.svelte";
 
     $effect(() => {
         const ctx = gsap.context(() => {
@@ -63,8 +62,6 @@
             <h1 class="top-heading">FULLSTACK WEB</h1>
             <h1 class="bottom-heading"><span class="slash"> // </span> DEVELOPER <span class="dot">.</span></h1>
         </div>
-
-        <ClickMe />
 
         <div class="content-row">
             <SocialLinks />
