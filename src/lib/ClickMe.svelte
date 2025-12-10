@@ -144,7 +144,7 @@
 <div class="container">
     <button
             bind:this={buttonRef}
-            class="button"
+            class="button disable-dbl-tap-zoom"
             class:holding={isHolding}
             style="transform: scale({growScale})"
             onmousedown={handleMouseDown}

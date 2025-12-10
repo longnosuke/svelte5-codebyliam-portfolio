@@ -89,3 +89,7 @@ button:focus-visible {
   border-radius: 2px;
   will-change: transform, opacity;
 }
+
+.disable-dbl-tap-zoom {
+  touch-action: manipulation;
+}
