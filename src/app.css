@@ -81,3 +81,11 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.confetti {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 2px;
+  will-change: transform, opacity;
+}
