@@ -7,34 +7,27 @@
     import Scroll from "./lib/Scroll.svelte";
     import Dock from "./lib/Dock.svelte";
     import Projects from "./lib/Projects.svelte";
-
-    import gsap from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
-    import { ScrollSmoother } from "gsap/ScrollSmoother";
-
-    import { onMount } from "svelte";
-
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
-
-    onMount(() => {
-        ScrollSmoother.create({
-            wrapper: "#smooth-wrapper",
-            content: "#smooth-content",
-            smooth: 1,
-            effects: true,
-            smoothTouch: 0.1
-        });
-    });
+    //
+    // import gsap from "gsap";
+    // import { ScrollTrigger } from "gsap/ScrollTrigger";
+    // import { ScrollSmoother } from "gsap/ScrollSmoother";
+    //
+    // import { onMount } from "svelte";
+    //
+    // gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+    //
+    // onMount(() => {
+    //     ScrollSmoother.create({
+    //         wrapper: "#smooth-wrapper",
+    //         content: "#smooth-content",
+    //         smooth: 1,
+    //         smoothTouch: 0.1
+    //     });
+    // });
 </script>
 
 <!-- FIXED ELEMENTS (MUST STAY OUTSIDE smoother) -->
-<Loader />
-<GrainOverlay />
-<Background />
-<Header />
-<Scroll />
-<Dock />
-
+<!---->
 <!-- SMOOTHER WRAPPER -->
 <div id="smooth-wrapper">
     <div id="smooth-content">
@@ -44,3 +37,10 @@
         </main>
     </div>
 </div>
+
+<!--<Loader />-->
+<GrainOverlay />
+<Background />
+<Header />
+<Scroll />
+<Dock />
