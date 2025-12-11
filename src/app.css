@@ -18,6 +18,10 @@
   display: none;
 }
 
+body {
+  touch-action: manipulation;
+}
+
 /* Hide scrollbar in Firefox */
 html {
   scrollbar-width: none; /* Firefox */
