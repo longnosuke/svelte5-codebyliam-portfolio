@@ -7,7 +7,6 @@
     const handleScroll = () => {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         isScroll = scrollTop > OFFSET;
-        console.log(isScroll);
     };
 
     document.addEventListener("scroll", handleScroll);
