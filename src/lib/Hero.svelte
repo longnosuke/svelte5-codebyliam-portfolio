@@ -5,7 +5,6 @@
 
     import SocialLinks from './SocialLinks.svelte';
     import CtaButton from "./CtaButton.svelte";
-    import InfiniteSlideUp from "./InfiniteSlideUp.svelte";
     import ClickMe from "./ClickMe.svelte";
 
     $effect(() => {
@@ -106,7 +105,6 @@
 
     /* Title Group */
     .title-group {
-        width: max-content;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
@@ -115,7 +113,7 @@
     }
 
     h1 {
-        font-size: clamp(2.5rem, 8vw, 9rem);
+        font-size: clamp(2.1rem, 8vw, 9rem);
         line-height: 1.1;
         margin: 0;
     }
@@ -129,7 +127,6 @@
         -webkit-text-fill-color: transparent;
         color: transparent;
         transition: color 0.5s;
-        font-size: clamp(2.5rem, 8vw, 8rem);
         line-height: 1.1;
         margin: 0;
         position: relative;
@@ -157,7 +154,6 @@
     }
 
     .description {
-        max-width: 600px;
         font-size: clamp(0.875rem, 2vw, 1.125rem);
         font-weight: 300;
         line-height: 1.75;
@@ -185,11 +181,19 @@
     }
 
     @media (max-width: 768px) {
+      .hero {
+        margin-top: 15vh;
+        align-items: flex-start;
+      }
         .content-row {
           grid-template-columns: 1fr;
           justify-items: center;
           gap: 0;
         }
+
+          .title-group {
+            align-items: center;
+          }
 
         .top-heading, .bottom-heading, .slash{
           position: unset;

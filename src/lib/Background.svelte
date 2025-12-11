@@ -144,12 +144,6 @@
     position: fixed;
     inset: 0;
     z-index: -40;
-    background-color: rgba(62, 62, 62, 1);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .overlay-background {
-      background-color: rgba(0, 0, 0, 0.6);
-    }
+    background-color: rgba(0, 0, 0, 0.6);
   }
 </style>
