@@ -91,6 +91,7 @@
     {/each}
 </div>
 
+<div class="round-gradient-top"></div>
 <div class="overlay-background"></div>
 
 <!-- On mobile: fixed centered dot -->
@@ -115,6 +116,22 @@
     gap: 8px;
   }
 
+  .round-gradient-top {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -40;
+    background: radial-gradient(
+            ellipse 250% 150% at top center, /* wider horizontally, same vertical height */
+            rgba(255, 255, 255, 0.4) 0%,
+            rgba(255, 255, 255, 0.2) 5%,     /* fully visible at the top */
+            rgba(255, 255, 255, 0.1) 10%,      /* fade out */
+            rgba(255, 255, 255, 0) 100%
+    );
+  }
+
   .grid-cell {
     --glow-factor: 0;
     width: 3px;
@@ -134,6 +151,16 @@
       opacity: 0.2;
       width: 10px;
       height: 10px;
+    }
+
+    .round-gradient-top {
+      background: radial-gradient(
+              ellipse 500% 150% at top center, /* wider horizontally, same vertical height */
+              rgba(255, 255, 255, 0.5) 0%,
+              rgba(255, 255, 255, 0.3) 5%,     /* fully visible at the top */
+              rgba(255, 255, 255, 0) 10%,      /* fade out */
+              rgba(255, 255, 255, 0) 20vh
+      );
     }
   }
 
