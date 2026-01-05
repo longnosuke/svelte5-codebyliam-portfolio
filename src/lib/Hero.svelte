@@ -1,59 +1,6 @@
 <script lang="ts">
-    import gsap from 'gsap';
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
-    gsap.registerPlugin(ScrollTrigger);
-
     import SocialLinks from './SocialLinks.svelte';
     import CtaButton from "./CtaButton.svelte";
-    import ClickMe from "./ClickMe.svelte";
-
-    $effect(() => {
-        const ctx = gsap.context(() => {
-            const scrollTriggerConfig = {
-                trigger: '.hero',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: true
-            };
-
-            // Only pin on desktop
-            const isDesktop = window.matchMedia('(min-width: 992px)').matches;
-            if (isDesktop) {
-                gsap.to('.hero-content', {
-                    ease: 'none',
-                    opacity: 0,
-                    y: -250,
-                    scale: 0.95,
-                    scrollTrigger: {
-                        ...scrollTriggerConfig,
-                        pin: true,
-                        pinSpacing: false
-                    }
-                });
-            }
-
-            // Parallax effects
-            gsap.to('.top-heading', {
-                opacity: 0,
-                x: -80,
-                scrollTrigger: scrollTriggerConfig
-            });
-
-            gsap.to('.slash', {
-                opacity: 0.3,
-                x: -40,
-                scrollTrigger: scrollTriggerConfig
-            });
-
-            gsap.to('.bottom-heading', {
-                opacity: 0.5,
-                x: 40,
-                scrollTrigger: scrollTriggerConfig
-            });
-        });
-
-        return () => ctx.revert();
-    });
 </script>
 
 <section class="hero">
@@ -62,8 +9,6 @@
             <h1 class="top-heading">FULLSTACK WEB</h1>
             <h1 class="bottom-heading"><span class="slash"> // </span> DEVELOPER <span class="dot">.</span></h1>
         </div>
-
-        <ClickMe />
 
         <div class="content-row">
             <SocialLinks />
