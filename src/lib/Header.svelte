@@ -1,7 +1,10 @@
 <script lang="ts">
-    import gsap from 'gsap';
     import { cubicInOut, cubicOut } from 'svelte/easing';
     import { fade, fly } from 'svelte/transition';
+    import gsap from 'gsap';
+    import ScrollToPlugin from 'gsap/ScrollToPlugin';
+
+    gsap.registerPlugin(ScrollToPlugin);
 
     const SLIDE_DURATION = 1000;
     const SLIDE_DELAY = 200;
@@ -10,6 +13,33 @@
 
     function toggle() {
         isOpen = !isOpen;
+
+    }
+
+    function handleNavClick(e: MouseEvent, href: string) {
+        if (href.startsWith('#')) {
+            e.preventDefault();
+
+            toggle();
+
+            setTimeout(() => {
+                const target = document.querySelector(href);
+
+                if (target) {
+                    const targetPosition =
+                        target.getBoundingClientRect().top + window.scrollY;
+
+                    gsap.to(window, {
+                        duration: 1.2,
+                        scrollTo: { y: targetPosition,  offsetY: 100, autoKill: true },
+                        ease: "power3.inOut",
+                        onComplete: () => {
+                            history.pushState(null, "", href);
+                        }
+                    });
+                }
+            }, SLIDE_DURATION + SLIDE_DELAY);
+        }
     }
 
     const navItems = [
@@ -20,6 +50,10 @@
         {
             title: 'projects',
             href: '#projects'
+        },
+        {
+            title: 'about',
+            href: '#about-me'
         },
         {
             title: 'blog',
@@ -122,7 +156,7 @@
                             }}
                         >
                             <a
-                                    onclick={toggle}
+                                    onclick={(e) => handleNavClick(e, href)}
                                     class="fullscreen-nav-link"
                                     {href}
                             >
