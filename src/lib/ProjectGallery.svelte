@@ -70,12 +70,6 @@
             url: "",
         },
         {
-            title: "Dumbbell VN",
-            type: "wordpress",
-            imageUrl: "dumbbellvn.webp",
-            url: "",
-        },
-        {
             title: "Fata Villa",
             type: "wordpress",
             imageUrl: "fatavilla.webp",

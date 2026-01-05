@@ -1,6 +1,4 @@
 <script lang="ts">
-    import AnchorLink from "./AnchorLink.svelte";
-
     let { index, title, type, url, setModal } = $props();
 </script>
 

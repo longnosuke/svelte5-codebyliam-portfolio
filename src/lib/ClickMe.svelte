@@ -159,7 +159,6 @@
         <div class="bottom"></div>
 
     </button>
-    <p class="hint">You can even hold it to increase the count</p>
 </div>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -192,7 +191,7 @@
   .top {
     width: 100%;
     height: 100%;
-    background: rgb(255, 255, 238);
+    background: #ffa487;
     font-size: 16px;
     color: rgb(36, 38, 34);
     display: flex;
@@ -208,7 +207,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgb(229, 229, 199);
+    background: #ffa487;
     top: 10px;
     left: 0;
     border-radius: 7mm;
