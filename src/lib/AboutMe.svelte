@@ -285,11 +285,6 @@
     animation: rotate 20s linear infinite;
   }
 
-  .rotating-text svg {
-    width: 100%;
-    height: 100%;
-  }
-
   .rotating-text text {
     fill: rgba(255, 255, 255, 0.6);
     font-size: 14px;
@@ -438,34 +433,6 @@
     margin: 5px 0 20px 0;
   }
 
-  /* Focus Card */
-  .focus-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .focus-list li {
-    padding: 12px 0;
-    color: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: color 0.3s ease;
-  }
-
-  .focus-list li:last-child {
-    border-bottom: none;
-  }
-
-  .focus-list li:hover {
-    color: rgba(138, 116, 249, 0.9);
-  }
-
-  .focus-list li::before {
-    content: "▸ ";
-    color: rgba(138, 116, 249, 0.7);
-    margin-right: 10px;
-  }
-
   /* Hover Effects */
   .hover-border {
     position: relative;
@@ -527,6 +494,10 @@
   }
 
   @media (max-width: 768px) {
+    .rotating-text {
+      display: none;
+    }
+
     .section-heading {
       font-size: 3rem;
       margin-top: 5rem;

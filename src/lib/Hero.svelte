@@ -17,7 +17,7 @@
                 I'm a 23 y.o fullstack web developer based in Vietnam.
             </p>
 
-            <CtaButton href="https://youtube.com/c/shortcode" label="Contact me" />
+<!--            <CtaButton href="https://youtube.com/c/shortcode" label="Contact me" />-->
         </div>
     </div>
 </section>
@@ -126,10 +126,6 @@
     }
 
     @media (max-width: 768px) {
-      .hero {
-        margin-top: 15vh;
-        align-items: flex-start;
-      }
         .content-row {
           grid-template-columns: 1fr;
           justify-items: center;

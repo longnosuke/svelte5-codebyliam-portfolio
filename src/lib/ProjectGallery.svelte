@@ -31,94 +31,87 @@
             title: "Migration CI",
             type: "wordpress-tool",
             imageUrl: "migration-ci.webp",
-            url: "",
+            url: "/",
         },
         {
             title: "Internal Tool",
             type: "internal-app",
             imageUrl: "internal-tool.webp",
-            url: "",
+            url: "https://tool.newstyledirect.au/",
         },
         {
             title: "Kit502",
             type: "fullstack",
             imageUrl: "kit502.webp",
-            url: "",
-        },
-        {
-            title: "AlphaPak Website",
-            type: "wordpress",
-            imageUrl: "alphapak.webp",
-            url: "",
-        },
-        {
-            title: "An Thanh Commodity",
-            type: "wordpress",
-            imageUrl: "anthanhcommodity.webp",
-            url: "",
-        },
-        {
-            title: "Bep That",
-            type: "wordpress",
-            imageUrl: "bepthat.webp",
-            url: "",
-        },
-        {
-            title: "Co Dong Son",
-            type: "wordpress",
-            imageUrl: "codongson.webp",
-            url: "",
-        },
-        {
-            title: "Fata Villa",
-            type: "wordpress",
-            imageUrl: "fatavilla.webp",
-            url: "",
-        },
-        {
-            title: "Glandcore",
-            type: "wordpress",
-            imageUrl: "glandcore.webp",
-            url: "",
-        },
-        {
-            title: "GCO IARC Asia",
-            type: "wordpress",
-            imageUrl: "gco-iarc-asia.webp",
-            url: "",
-        },
-        {
-            title: "Leaparfum",
-            type: "wordpress",
-            imageUrl: "leaparfum.webp",
-            url: "",
-        },
-        {
-            title: "Mid-Man",
-            type: "wordpress",
-            imageUrl: "mid-man.webp",
-            url: "",
-        },
-        {
-            title: "OPK.edu.vn",
-            type: "wordpress",
-            imageUrl: "opk-edu-vn.webp",
-            url: "",
+            url: "#",
         },
         {
             title: "NuWave Oxygen",
             type: "wordpress",
             imageUrl: "nuwaveoxypure.webp",
-            url: "",
+            url: "https://nuwaveoxypure.com.au/",
+        },
+        {
+            title: "AlphaPak Website",
+            type: "wordpress",
+            imageUrl: "alphapak.webp",
+            url: "https://alphapak.vn/",
+        },
+        {
+            title: "An Thanh Commodity",
+            type: "wordpress",
+            imageUrl: "anthanhcommodity.webp",
+            url: "https://anthanhcommodity.com.vn/",
+        },
+        {
+            title: "Bep That",
+            type: "wordpress",
+            imageUrl: "bepthat.webp",
+            url: "https://bepthat.com/",
+        },
+        {
+            title: "Co Dong Son",
+            type: "wordpress",
+            imageUrl: "codongson.webp",
+            url: "https://codongson.vn/",
+        },
+        {
+            title: "Fata Villa",
+            type: "wordpress",
+            imageUrl: "fatavilla.webp",
+            url: "https://fatavilla.com/",
+        },
+        {
+            title: "GCO IARC Asia",
+            type: "wordpress",
+            imageUrl: "gco-iarc-asia.webp",
+            url: "https://gco.iarc.asia/",
+        },
+        {
+            title: "Leaparfum",
+            type: "wordpress",
+            imageUrl: "leaparfum.webp",
+            url: "https://leaparfum.com/",
+        },
+        {
+            title: "Mid-Man",
+            type: "wordpress",
+            imageUrl: "mid-man.webp",
+            url: "https://mid-man.net/",
+        },
+        {
+            title: "OPK.edu.vn",
+            type: "wordpress",
+            imageUrl: "opk-edu-vn.webp",
+            url: "https://opk.edu.vn/",
         },
         {
             title: "TravelNow VN",
             type: "wordpress",
             imageUrl: "travelnow-vn.webp",
-            url: "",
+            url: "https://travelnow-vn.com/",
         },
     ];
-
 
 </script>
 <a id="projects" class="section-heading">PROJECTS</a>
@@ -137,12 +130,6 @@
 <Modal {modal} {projects} />
 
 <style>
-  .project-gallery {
-    min-height: 100vh;
-    width: 100%;
-  }
-
-  /* Section heading */
   .section-heading {
     font-family: 'Apparel', sans-serif;
     font-weight: 700;
@@ -150,16 +137,34 @@
     display: flex;
     justify-content: center;
     text-align: center;
+    box-sizing: border-box;
 
     /* Responsive font size */
-    font-size: clamp(1rem, 8vw, 5rem);
-    margin: clamp(1rem, 6vw, 4rem) 0;
+    font-size: clamp(2rem, 8vw, 5rem);
+    margin: clamp(1.5rem, 6vw, 4rem) 0;
   }
 
-  /* Project list spacing */
-  .project-gallery > :global(.project) {
-    padding: clamp(1rem, 5vw, 3rem)
-    clamp(1rem, 8vw, 6rem);
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .project-gallery > :global(.project) {
+      padding: 1.5rem 1.5rem;
+    }
+
+    .section-heading {
+      margin: 2rem 0;
+      font-size: 2.5rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .project-gallery > :global(.project) {
+      padding: 1.25rem 1rem;
+    }
+
+    .section-heading {
+      font-size: 2rem;
+      margin: 1.5rem 0;
+    }
   }
 
   /* Reduce motion & hover on touch devices */
@@ -168,5 +173,4 @@
       opacity: 1;
     }
   }
-
 </style>
