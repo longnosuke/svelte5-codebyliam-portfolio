@@ -3,6 +3,7 @@
     import homeAvatar from "../assets/home-avatar.JPG";
     import webnowLogo from "../assets/webnow-logo.webp";
     import newstyledirectLogo from "../assets/newstyledirect-logo.png";
+    import CV from "../assets/pdf/NguyenThanhLong_CV.pdf"
 
     function handleMove(e) {
         const card = e.currentTarget;
@@ -46,7 +47,7 @@
         </div>
         <h2 class="name">Thanh Long</h2>
         <a href="mailto:info.liamnguyen@gmail.com" class="email">info.liamnguyen@gmail.com</a>
-        <button class="download-btn">Download CV</button>
+        <a href={CV} target="_blank" class="download-btn">Download CV</a>
     </div>
 
     <!-- About Me Info Card -->

@@ -1,31 +1,22 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-12 text-center">
-            <ul class="list-inline social-links">
-
-                <!-- GitHub -->
-                <li>
-                    <a href="https://github.com/#" class="btn-social" title="GitHub">
-                        <i class="fa-brands fa-github"></i>
-                    </a>
-                </li>
-
-                <!-- LinkedIn -->
-                <li>
-                    <a href="https://ph.linkedin.com/in/#" class="btn-social" title="LinkedIn">
-                        <i class="fa-brands fa-linkedin"></i>
-                    </a>
-                </li>
-
-                <!-- Email -->
-                <li>
-                    <a href="mailto:youremail@example.com" class="btn-social" title="Email">
-                        <i class="fa-solid fa-envelope"></i>
-                    </a>
-                </li>
-
-            </ul>
-        </div>
+        <ul class="list-inline social-links">
+            <li>
+                <a href="https://github.com/longnosuke" class="btn-social" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.linkedin.com/in/thanh-long-nguyen-2905b2366/" class="btn-social" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin"></i>
+                </a>
+            </li>
+            <li>
+                <a href="mailto:info.liamnguyen@gmail.com" class="btn-social" title="Email">
+                    <i class="fa-solid fa-envelope"></i>
+                </a>
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -51,6 +42,7 @@
     margin-bottom: 0;
     margin-top: 0;
   }
+
   .list-inline > li {
     display: inline-block;
     padding-left: 5px;
