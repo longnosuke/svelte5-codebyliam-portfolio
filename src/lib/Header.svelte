@@ -19,19 +19,30 @@
     function handleNavClick(e: MouseEvent, href: string) {
         if (href.startsWith('#')) {
             e.preventDefault();
+            
+            // Check if device is mobile
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
             toggle();
 
             setTimeout(() => {
                 const target = document.querySelector(href);
+                if (!target) return;
 
-                if (target) {
-                    const targetPosition =
-                        target.getBoundingClientRect().top + window.scrollY;
+                const targetPosition = target.getBoundingClientRect().top + window.scrollY - 100;
 
+                if (isMobile) {
+                    // Use standard scroll on mobile
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                    history.pushState(null, "", href);
+                } else {
+                    // Use GSAP smooth scroll on desktop
                     gsap.to(window, {
                         duration: 1.2,
-                        scrollTo: { y: targetPosition,  offsetY: 100, autoKill: true },
+                        scrollTo: { y: targetPosition, autoKill: true },
                         ease: "power3.inOut",
                         onComplete: () => {
                             history.pushState(null, "", href);

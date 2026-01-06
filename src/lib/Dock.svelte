@@ -18,23 +18,33 @@
 
         e.preventDefault();
 
+        // Check if device is mobile
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
         setTimeout(() => {
             const target = document.querySelector(href);
             if (!target) return;
 
-            const y =
-                target.getBoundingClientRect().top +
-                window.scrollY -
-                100;
+            const y = target.getBoundingClientRect().top + window.scrollY - 100;
 
-            gsap.to(window, {
-                duration: 1.2,
-                scrollTo: { y, autoKill: true },
-                ease: "power3.inOut",
-                onComplete: () => {
-                    history.pushState(null, "", href);
-                }
-            });
+            if (isMobile) {
+                // Use standard scroll on mobile
+                window.scrollTo({
+                    top: y,
+                    behavior: 'smooth'
+                });
+                history.pushState(null, "", href);
+            } else {
+                // Use GSAP smooth scroll on desktop
+                gsap.to(window, {
+                    duration: 1.2,
+                    scrollTo: { y, autoKill: true },
+                    ease: "power3.inOut",
+                    onComplete: () => {
+                        history.pushState(null, "", href);
+                    }
+                });
+            }
         }, + SLIDE_DELAY);
     }
 
