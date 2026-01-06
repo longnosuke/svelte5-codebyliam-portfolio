@@ -1,4 +1,5 @@
 <script lang="ts">
+    import favicon from "./assets/favicon.png"
     import Background from "./lib/Background.svelte";
     import Header from "./lib/Header.svelte";
     import GrainOverlay from "./lib/GrainOverlay.svelte";
@@ -8,6 +9,10 @@
     import ProjectGallery from "./lib/ProjectGallery.svelte";
     import AboutMe from "./lib/AboutMe.svelte";
 </script>
+
+<svetle:head>
+    <link rel="icon" href={favicon} />
+</svetle:head>
 
 <div id="smooth-wrapper">
     <div id="smooth-content">
