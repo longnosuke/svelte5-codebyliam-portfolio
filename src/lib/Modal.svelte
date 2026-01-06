@@ -84,14 +84,14 @@
 <style>
   .modalContainer{
     height: 300px;
-    width: 450px;
+    width: 440px;
     position: absolute;
-    background-color: white;
     overflow: hidden;
     pointer-events: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 14px;
   }
 
   .modalSlider{
@@ -112,6 +112,7 @@
 
   .modal img{
     height: auto;
+    border-radius: 12px;
   }
 
   .cursor, .cursorLabel{
