@@ -30,14 +30,14 @@
 <style>
   .scroll{
     position: fixed;
-    bottom: 10%;
+    bottom: 150px;
     left: 50%;
   }
 
   .box span{
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border-bottom: 2px solid white;
     border-right: 2px solid white;
     transform: rotate(45deg);

@@ -4,8 +4,40 @@
     import { Code } from 'lucide-svelte';
     import { Mail } from 'lucide-svelte';
     import { Rss } from 'lucide-svelte';
+    import gsap from "gsap";
 
     let hasLoaded = false;
+
+    const SLIDE_DELAY = 100;
+
+    function handleLink(e: MouseEvent) {
+        const link = e.currentTarget as HTMLAnchorElement;
+        const href = link.getAttribute("href");
+
+        if (!href || !href.startsWith("#")) return;
+
+        e.preventDefault();
+
+        setTimeout(() => {
+            const target = document.querySelector(href);
+            if (!target) return;
+
+            const y =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                100;
+
+            gsap.to(window, {
+                duration: 1.2,
+                scrollTo: { y, autoKill: true },
+                ease: "power3.inOut",
+                onComplete: () => {
+                    history.pushState(null, "", href);
+                }
+            });
+        }, + SLIDE_DELAY);
+    }
+
 
     onMount(() => {
         const dock = document.querySelector<HTMLDivElement>(".dock");
@@ -54,18 +86,18 @@
 <footer>
     <div class="dock" class:loaded={hasLoaded}>
         <div class="items">
-            <div class="item" data-tooltip="Home">
+            <a href="#home" class="item" data-tooltip="Home" onclick={(e) => handleLink(e)}>
                 <House />
-            </div>
-            <div class="item" data-tooltip="Projects">
+            </a>
+            <a href="#projects" class="item" data-tooltip="Projects" onclick={(e) => handleLink(e)}>
                 <Code/>
-            </div>
-            <div class="item" data-tooltip="Blog">
+            </a>
+            <a href="https://blog.codebyliam.com/" target="_blank" class="item" data-tooltip="Blog">
                 <Rss/>
-            </div>
-            <div class="item" data-tooltip="Contact">
+            </a>
+            <a href="#about-me" class="item" data-tooltip="About Me" onclick={(e) => handleLink(e)}>
                 <Mail/>
-            </div>
+            </a>
         </div>
     </div>
 </footer>
