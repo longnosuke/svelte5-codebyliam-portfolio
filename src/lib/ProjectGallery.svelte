@@ -13,13 +13,13 @@
             title: "Ticket Support",
             type: "fullstack",
             imageUrl: "ticket.webp",
-            url: "projects/helpdesk"
+            url: "https://helpdesk.codebyliam.com/"
         },
         {
             title: "NewstyleDirect",
             type: "wordpress",
             imageUrl: "newstyledirect.webp",
-            url: "projects/newstyledirect"
+            url: "https://newstyledirect.com.au/"
         },
         {
             title: "Universal WP Plugin",
