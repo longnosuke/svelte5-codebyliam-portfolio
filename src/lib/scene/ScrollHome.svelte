@@ -3,42 +3,36 @@
 	import { onMount } from 'svelte';
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import ArrowRight from '@lucide/svelte/icons/arrow-right';
+	import Mail from '@lucide/svelte/icons/mail';
+	import ScrollSpaceBackdrop from '$lib/components/ScrollSpaceBackdrop.svelte';
 	import SceneCanvas from './SceneCanvas.svelte';
+	import TerminalWindow from '$lib/components/TerminalWindow.svelte';
+	import TerminalPlanet from '$lib/components/TerminalPlanet.svelte';
+	import TerminalStats from '$lib/components/TerminalStats.svelte';
+	import TerminalTechTags from '$lib/components/TerminalTechTags.svelte';
+	import { homeSections } from '$lib/data/home';
 	import { site } from '$lib/data/site';
 
 	let scrollProgress = $state(0);
+	let activeSection = $state(0);
 	let reducedMotion = $state(false);
 	let scrollRoot: HTMLElement | undefined;
 	let canvasReady = $state(false);
 
-	const sections = [
-		{
-			eyebrow: 'Portfolio',
-			title: 'I build interactive things.',
-			body: `Hi — I'm ${site.name}, also known as ${site.alias}. Fullstack developer based in ${site.location}.`
-		},
-		{
-			eyebrow: 'Focus',
-			title: 'Interfaces that feel alive.',
-			body: 'Svelte, TypeScript, WordPress, and tools that ship. The scene scrolls with you — same idea I bring to products.'
-		},
-		{
-			eyebrow: 'Work',
-			title: 'Selected projects.',
-			body: 'Client sites, internal tools, and fullstack apps. See the full list on the work page.'
-		},
-		{
-			eyebrow: 'Next',
-			title: 'Let\'s build something.',
-			body: 'Open to work. Browse the portfolio or get in touch.'
-		}
-	];
+	const sections = homeSections;
+	const current = $derived(sections[activeSection]);
 
-	onMount(async () => {
+	onMount(() => {
 		reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		canvasReady = true;
 
-		if (reducedMotion || !scrollRoot) return;
+		const id = requestAnimationFrame(() => {
+			canvasReady = true;
+		});
+
+		if (reducedMotion || !scrollRoot) {
+			return () => cancelAnimationFrame(id);
+		}
 
 		gsap.registerPlugin(ScrollTrigger);
 
@@ -46,57 +40,96 @@
 			trigger: scrollRoot,
 			start: 'top top',
 			end: 'bottom bottom',
-			scrub: 0.6,
+			scrub: 0.9,
 			onUpdate: (self) => {
 				scrollProgress = self.progress;
+				activeSection = Math.min(
+					sections.length - 1,
+					Math.floor(self.progress * sections.length)
+				);
 			}
 		});
 
-		const panels = scrollRoot.querySelectorAll<HTMLElement>('.scroll-panel');
-		panels.forEach((panel) => {
-			gsap.fromTo(
-				panel,
-				{ autoAlpha: 0.15, y: 40 },
-				{
-					autoAlpha: 1,
-					y: 0,
-					scrollTrigger: {
-						trigger: panel,
-						start: 'top 75%',
-						end: 'top 35%',
-						scrub: 0.5
-					}
-				}
-			);
-		});
-
-		return () => ScrollTrigger.getAll().forEach((t) => t.kill());
+		return () => {
+			cancelAnimationFrame(id);
+			ScrollTrigger.getAll().forEach((t) => t.kill());
+		};
 	});
 </script>
 
 {#if browser && canvasReady && !reducedMotion}
+	<ScrollSpaceBackdrop {scrollProgress} />
 	<SceneCanvas {scrollProgress} />
 {:else if browser && canvasReady}
-	<div class="static-fallback" aria-hidden="true"></div>
+	<ScrollSpaceBackdrop scrollProgress={0} animate={false} />
+	<div class="static-fallback galaxy-backdrop" aria-hidden="true"></div>
 {/if}
 
-<div class="scroll-home" bind:this={scrollRoot}>
-	<div class="scroll-home__track">
-		{#each sections as section, i}
-			<section class="scroll-panel" style:--i={i}>
-				<p class="scroll-panel__eyebrow">{section.eyebrow}</p>
-				<h1 class="scroll-panel__title">{section.title}</h1>
-				<p class="scroll-panel__body">{section.body}</p>
-				{#if i === sections.length - 1}
-					<div class="scroll-panel__actions">
-						<a class="btn btn--primary" href="/portfolio">View work</a>
-						<a class="btn" href="/contact">Contact</a>
-					</div>
-				{:else if i === 2}
-					<a class="btn" href="/portfolio">View work →</a>
-				{/if}
-			</section>
-		{/each}
+<div
+	class="scroll-home"
+	bind:this={scrollRoot}
+	style="--section-count: {sections.length}; --section-scroll: 50vh"
+>
+	<div class="scroll-home__stage">
+		<TerminalWindow
+			command={current.command}
+			prompt="Liam@portfolio:~"
+			split
+			homeChrome
+			statusDot
+			class="scroll-home__terminal"
+		>
+			{#snippet aside()}
+				{#key current.planet}
+					<TerminalPlanet planet={current.planet} />
+				{/key}
+			{/snippet}
+
+			{#snippet footer()}
+				<TerminalStats />
+			{/snippet}
+
+			{#key activeSection}
+				<div class="scroll-home__content">
+					<h1 class="terminal__title">{current.title}</h1>
+					{#each current.lines as line}
+						<p
+							class="terminal__output"
+							class:terminal__output--muted={!line.accent}
+							class:terminal__line--accent={line.accent}
+						>
+							{line.text}
+						</p>
+					{/each}
+
+					{#if current.showBio}
+						<p class="scroll-home__bio terminal__output terminal__output--muted">{site.bio}</p>
+						<TerminalTechTags />
+					{/if}
+
+					{#if 'primaryCta' in current && current.primaryCta}
+						<div class="scroll-home__actions">
+							<a class="btn btn--primary" href={current.primaryCta.href}>
+								{current.primaryCta.label}
+								<ArrowRight size={18} strokeWidth={2} aria-hidden="true" />
+							</a>
+							{#if current.secondaryCta}
+								<a class="btn scroll-home__btn-outline" href={current.secondaryCta.href}>
+									<Mail size={18} strokeWidth={2} aria-hidden="true" />
+									{current.secondaryCta.label}
+								</a>
+							{/if}
+						</div>
+					{:else if 'linkCta' in current && current.linkCta}
+						<a class="btn" href={current.linkCta.href}>{current.linkCta.label}</a>
+					{/if}
+				</div>
+			{/key}
+
+			<p class="scroll-home__hint" aria-hidden="true">
+				scroll · {activeSection + 1}/{sections.length}
+			</p>
+		</TerminalWindow>
 	</div>
 </div>
 
@@ -104,65 +137,88 @@
 	.scroll-home {
 		position: relative;
 		z-index: var(--z-overlay);
+		height: calc(var(--section-count) * var(--section-scroll, 100vh));
 	}
 
-	.scroll-home__track {
-		position: relative;
-	}
-
-	.scroll-panel {
-		min-height: 100vh;
+	.scroll-home__stage {
+		position: fixed;
+		inset: 0;
+		z-index: 1;
 		display: flex;
-		flex-direction: column;
+		align-items: center;
 		justify-content: center;
-		padding: 6rem var(--space-page) 4rem;
-		max-width: 720px;
+		padding: clamp(5rem, 12vh, 7rem) var(--space-page) 2rem;
+		pointer-events: none;
 	}
 
-	.scroll-panel__eyebrow {
-		margin: 0 0 0.75rem;
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.2em;
+	.scroll-home__stage :global(.scroll-home__terminal) {
+		width: var(--terminal-max);
+		max-height: calc(100vh - clamp(5rem, 12vh, 7rem) - 2rem);
+		pointer-events: auto;
+	}
+
+	.scroll-home__content {
+		animation: fade-in 0.35s ease;
+	}
+
+	@keyframes fade-in {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	.scroll-home__bio {
+		margin-top: 0.75rem;
+		max-width: 42ch;
+	}
+
+	:global(.terminal__line--accent) {
 		color: var(--color-accent);
+		font-size: var(--text-base);
 	}
 
-	.scroll-panel__title {
-		margin: 0 0 1rem;
-		font-family: var(--font-display);
-		font-size: clamp(2.25rem, 7vw, 4.5rem);
-		line-height: 1.05;
-		font-weight: 700;
-	}
-
-	.scroll-panel__body {
-		margin: 0;
-		font-size: clamp(1rem, 2.2vw, 1.15rem);
-		color: var(--color-text-muted);
-		line-height: 1.75;
-		max-width: 38ch;
-	}
-
-	.scroll-panel__actions {
+	.scroll-home__actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
-		margin-top: 2rem;
+		gap: 1rem;
+		margin-top: 1.75rem;
+	}
+
+	.scroll-home__btn-outline {
+		background: transparent;
+	}
+
+	.scroll-home__hint {
+		margin: 1.25rem 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-sm);
+		color: var(--color-text-muted);
+		opacity: 0.7;
 	}
 
 	.static-fallback {
 		position: fixed;
 		inset: 0;
 		z-index: var(--z-canvas);
-		background:
-			radial-gradient(ellipse 80% 50% at 50% 0%, var(--color-accent-soft), transparent),
-			var(--color-bg);
 		pointer-events: none;
 	}
 
-	@media (max-width: 768px) {
-		.scroll-panel {
-			padding-top: 5rem;
+	@media (prefers-reduced-motion: reduce) {
+		.scroll-home {
+			height: auto;
+			min-height: 100vh;
+		}
+
+		.scroll-home__stage {
+			position: relative;
+			inset: auto;
+		}
+
+		.scroll-home__content {
+			animation: none;
 		}
 	}
 </style>

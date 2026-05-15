@@ -1,3 +1,13 @@
+# CodebyLiam Portfolio
+
+Personal portfolio (SvelteKit, Three.js, scroll-driven home).
+
+## Attribution
+
+Home terminal planet illustrations in `static/images/planets/` are original SVG artwork created for this project (no third-party stock assets).
+
+---
+
 # Svelte + TS + Vite
 
 This template should help get you started developing with Svelte and TypeScript in Vite.

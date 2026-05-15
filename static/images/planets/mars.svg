@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none" role="img" aria-label="Mars with cratered terrain and warm rim light">
+  <defs>
+    <radialGradient id="marsSurface" cx="66%" cy="30%" r="82%">
+      <stop offset="0%" stop-color="#ffd1a3"/>
+      <stop offset="22%" stop-color="#c96c3b"/>
+      <stop offset="52%" stop-color="#6f2c1f"/>
+      <stop offset="82%" stop-color="#130807"/>
+      <stop offset="100%" stop-color="#030101"/>
+    </radialGradient>
+    <radialGradient id="marsRim" cx="68%" cy="28%" r="58%">
+      <stop offset="76%" stop-color="#f97316" stop-opacity="0"/>
+      <stop offset="91%" stop-color="#f59e0b" stop-opacity=".26"/>
+      <stop offset="100%" stop-color="#ffedd5" stop-opacity=".86"/>
+    </radialGradient>
+    <filter id="marsNoise" x="0" y="0" width="400" height="400">
+      <feTurbulence type="fractalNoise" baseFrequency=".72" numOctaves="4" seed="11"/>
+      <feColorMatrix type="matrix" values=".8 0 0 0 0  0 .38 0 0 0  0 0 .2 0 0  0 0 0 .22 0"/>
+      <feBlend in="SourceGraphic" mode="multiply"/>
+    </filter>
+    <clipPath id="marsClip">
+      <circle cx="200" cy="200" r="168"/>
+    </clipPath>
+  </defs>
+  <circle cx="200" cy="200" r="180" fill="#050201"/>
+  <g clip-path="url(#marsClip)">
+    <circle cx="200" cy="200" r="168" fill="url(#marsSurface)"/>
+    <g filter="url(#marsNoise)" opacity=".9">
+      <path d="M95 153c36-22 74-27 110-13 18 7 20 22 3 31-40 22-85 28-126 17-19-5-14-24 13-35Z" fill="#8f3b22"/>
+      <path d="M176 238c52-22 102-20 140 8 15 11 9 28-15 34-53 13-109 4-147-24-15-11-8-25 22-18Z" fill="#4b1d16"/>
+      <path d="M129 283c41 4 74 21 99 51 10 12 1 23-19 22-43-4-80-23-105-54-10-13 0-22 25-19Z" fill="#7a2c1d"/>
+      <path d="M231 103c42 2 77 18 104 45 12 12 5 25-16 26-48 1-90-17-118-47-10-11 1-25 30-24Z" fill="#d87946" opacity=".56"/>
+    </g>
+    <g stroke="#ef8b55" stroke-linecap="round" opacity=".42">
+      <path d="M94 207c58 16 117 14 176-5" stroke-width="2"/>
+      <path d="M109 248c41 18 96 24 166 18" stroke-width="1.5"/>
+      <path d="M133 143c37 12 79 13 127 3" stroke-width="1.4"/>
+    </g>
+    <g fill="#1f0a07" opacity=".34">
+      <ellipse cx="155" cy="157" rx="28" ry="16" transform="rotate(-14 155 157)"/>
+      <ellipse cx="256" cy="225" rx="34" ry="22" transform="rotate(19 256 225)"/>
+      <ellipse cx="199" cy="286" rx="26" ry="14" transform="rotate(15 199 286)"/>
+      <ellipse cx="278" cy="145" rx="20" ry="12" transform="rotate(22 278 145)"/>
+      <ellipse cx="126" cy="241" rx="18" ry="11" transform="rotate(8 126 241)"/>
+    </g>
+    <g fill="#ffb36f" opacity=".16">
+      <ellipse cx="178" cy="119" rx="60" ry="16" transform="rotate(8 178 119)"/>
+      <ellipse cx="246" cy="185" rx="72" ry="18" transform="rotate(12 246 185)"/>
+      <ellipse cx="203" cy="256" rx="82" ry="20" transform="rotate(11 203 256)"/>
+    </g>
+    <circle cx="200" cy="200" r="168" fill="url(#marsRim)"/>
+    <circle cx="200" cy="200" r="168" fill="none" stroke="#ffd4ad" stroke-opacity=".34" stroke-width="2"/>
+  </g>
+</svg>

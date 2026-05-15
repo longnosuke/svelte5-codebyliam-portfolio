@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" fill="none" role="img" aria-label="Ice planet">
+  <defs>
+    <radialGradient id="ice" cx="36%" cy="34%" r="68%">
+      <stop offset="0%" stop-color="#7dd3fc"/>
+      <stop offset="45%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#0c1929"/>
+    </radialGradient>
+    <radialGradient id="iceAtmo" cx="50%" cy="50%" r="50%">
+      <stop offset="88%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(125,211,252,0.4)"/>
+    </radialGradient>
+  </defs>
+  <circle cx="200" cy="200" r="168" fill="url(#ice)"/>
+  <ellipse cx="175" cy="185" rx="60" ry="25" fill="#38bdf8" opacity="0.2"/>
+  <ellipse cx="230" cy="215" rx="45" ry="20" fill="#0ea5e9" opacity="0.25"/>
+  <circle cx="200" cy="200" r="168" fill="url(#iceAtmo)"/>
+  <ellipse cx="200" cy="248" rx="200" ry="28" fill="none" stroke="rgba(148,163,184,0.35)" stroke-width="6"/>
+  <ellipse cx="200" cy="248" rx="155" ry="18" fill="none" stroke="rgba(203,213,225,0.2)" stroke-width="3"/>
+  <circle cx="200" cy="200" r="172" fill="none" stroke="rgba(217,119,87,0.2)" stroke-width="2"/>
+</svg>

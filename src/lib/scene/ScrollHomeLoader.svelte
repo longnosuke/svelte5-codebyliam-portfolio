@@ -14,10 +14,9 @@
 	<ScrollHome />
 {:else}
 	<div class="scroll-fallback page-shell">
-		<p class="eyebrow">Portfolio</p>
-		<h1>I build interactive things.</h1>
-		<p class="lead">Loading experience…</p>
-		<a class="btn btn--primary" href="/portfolio">View work</a>
+		<p class="eyebrow">boot</p>
+		<h1 class="terminal__title">Loading galaxy…</h1>
+		<p class="terminal__output terminal__output--muted">Initializing scene</p>
 	</div>
 {/if}
 
@@ -27,17 +26,5 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-	}
-
-	.eyebrow {
-		color: var(--color-accent);
-		text-transform: uppercase;
-		letter-spacing: 0.2em;
-		font-size: 0.75rem;
-	}
-
-	h1 {
-		font-family: var(--font-display);
-		font-size: clamp(2rem, 6vw, 3.5rem);
 	}
 </style>

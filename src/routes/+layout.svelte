@@ -1,23 +1,22 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import '../app.css';
 	import favicon from '../assets/favicon.png';
-	import SiteNav from '$lib/components/SiteNav.svelte';
-	import SiteFooter from '$lib/components/SiteFooter.svelte';
+	import GalaxyBackdrop from '$lib/components/GalaxyBackdrop.svelte';
+	import SiteCursor from '$lib/components/SiteCursor.svelte';
+	import SiteDock from '$lib/components/SiteDock.svelte';
+	import { installInteractionGuards } from '$lib/interactionGuards';
 
 	let { children } = $props();
+
+	onMount(installInteractionGuards);
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
-	<title>CodebyLiam — Fullstack Developer</title>
 </svelte:head>
 
-<SiteNav />
-<main>{@render children()}</main>
-<SiteFooter />
-
-<style>
-	main {
-		min-height: 100vh;
-	}
-</style>
+<GalaxyBackdrop />
+<SiteCursor />
+<SiteDock />
+<main class="main--terminal main--with-dock">{@render children()}</main>
