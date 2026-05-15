@@ -1,16 +1,13 @@
 <script lang="ts">
-    import { createClient } from '@supabase/supabase-js'
-    import {onMount} from "svelte";
-    import clickSound from "../assets/sound/click.mp3";
-    import { launchConfetti } from "../utils/launchConfetti";
-
-    const supabaseUrl = 'https://pikanqwsioklmctfmhjn.supabase.co'
-    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpa2FucXdzaW9rbG1jdGZtaGpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUzODMwNTQsImV4cCI6MjA4MDk1OTA1NH0.shb6zONtH1fPIJ1fEa8NrRK-UsUclWybJgkJvTJNqRQ"
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    import { browser } from '$app/environment';
+    import { onMount } from 'svelte';
+    import clickSound from '../assets/sound/click.mp3';
+    import { launchConfetti } from '../utils/launchConfetti';
+    import { supabase } from '$lib/supabase';
 
     let count: number = $state(0);
     let pendingClicks: number = $state(0);
-    let audio = new Audio(clickSound);
+    let audio: HTMLAudioElement | undefined;
     let buttonRef: HTMLButtonElement;
 
     // Config
@@ -34,6 +31,7 @@
     let lastTickTime = 0;
 
     function playSound() {
+        if (!audio) return;
         audio.currentTime = 0;
         audio.play();
     }
@@ -138,7 +136,10 @@
         if (!error) count = data.total;
     }
 
-    onMount(() => getClicks());
+    onMount(() => {
+        if (browser) audio = new Audio(clickSound);
+        getClicks();
+    });
 </script>
 
 <div class="container">
@@ -160,13 +161,6 @@
 
     </button>
 </div>
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet"
-/>
 
 <style>
   .container {
@@ -282,9 +276,4 @@
     font-weight: bold;
   }
 
-  .hint {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 0;
-  }
 </style>
