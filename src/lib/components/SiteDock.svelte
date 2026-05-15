@@ -157,7 +157,7 @@
 
 	@media (pointer: coarse) {
 		.site-dock__item:active .site-dock__icon {
-			transform: scale(1.12);
+			transform: none;
 		}
 	}
 
@@ -233,10 +233,44 @@
 	}
 
 	@media (max-width: 768px), (pointer: coarse) {
+		.site-dock {
+			bottom: max(0.625rem, env(safe-area-inset-bottom));
+		}
+
 		.site-dock__pill {
+			gap: 0.2rem;
+			padding: 0.35rem 0.75rem;
 			backdrop-filter: none;
 			-webkit-backdrop-filter: none;
 			background: rgba(16, 18, 30, 0.98);
+		}
+
+		.site-dock__item {
+			min-width: 38px;
+			min-height: 38px;
+			padding: 0.2rem;
+		}
+
+		.site-dock__icon :global(svg) {
+			width: 20px;
+			height: 20px;
+		}
+
+		.site-dock__dot {
+			bottom: 3px;
+			width: 3px;
+			height: 3px;
+		}
+	}
+
+	@media (hover: none), (pointer: coarse) {
+		.site-dock__item:hover:not(.site-dock__item--active) {
+			color: var(--color-text);
+		}
+
+		.site-dock__item:hover .site-dock__tooltip {
+			opacity: 0;
+			transform: translateX(-50%) translateY(4px);
 		}
 	}
 

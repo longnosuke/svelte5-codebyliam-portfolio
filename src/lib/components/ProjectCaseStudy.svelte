@@ -168,6 +168,14 @@
 		background: var(--color-accent-soft);
 	}
 
+	@media (hover: none), (pointer: coarse) {
+		.back:hover {
+			color: var(--color-text);
+			border-color: var(--color-border);
+			background: rgba(255, 255, 255, 0.04);
+		}
+	}
+
 	.banner {
 		margin: 0 0 1.25rem;
 		padding: 0.75rem 1rem;
@@ -411,5 +419,11 @@
 
 	.pager__link:hover {
 		color: var(--color-accent);
+	}
+
+	@media (hover: none), (pointer: coarse) {
+		.pager__link:hover {
+			color: inherit;
+		}
 	}
 </style>

@@ -23,7 +23,7 @@
   --shadow-dock: var(--shadow-surface);
   --font-sans: "SuisseIntl", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --font-display: var(--font-sans);
+  --font-display: "Apparel", var(--font-sans);
   --font-body: var(--font-sans);
   --z-backdrop: 0;
   --z-space-backdrop: 0.5;
@@ -39,7 +39,7 @@
   --radius-terminal: 8px;
   --text-base: clamp(1rem, 0.35rem + 0.85vw, 1.125rem);
   --text-sm: clamp(0.875rem, 0.3rem + 0.7vw, 1rem);
-  --title-xl: clamp(2rem, 1.5rem + 2.8vw, 3rem);
+  --title-xl: clamp(2.5rem, 2.25rem + 3.5vw, 3.5rem);
   --motion-fast: 0.2s ease;
 }
 
@@ -167,8 +167,11 @@ h1,
 h2,
 .terminal__title {
   font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.025em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.06;
+  text-wrap: balance;
 }
 
 .confetti {
@@ -267,9 +270,12 @@ h2,
 .section-title,
 .page-shell .title {
   font-family: var(--font-display);
+  font-style: italic;
   font-size: var(--title-xl);
   margin: 0 0 1rem;
-  line-height: 1.15;
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .lead,
@@ -396,6 +402,8 @@ h2,
   margin: 0 0 0.75rem;
   font-size: var(--title-xl);
   color: var(--color-text);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
 }
 
 .terminal__bar--home {
@@ -531,9 +539,9 @@ h2,
     --terminal-max: 100%;
     --terminal-body-pad: 1.1rem 1.15rem 1.2rem;
     --title-xl: clamp(1.6rem, 1.1rem + 2.5vw, 2rem);
-    /* dock offset (1rem) + pill (~3.75rem) + gap above dock (0.625rem) + safe area */
+    /* dock offset + compact pill + gap above dock + safe area */
     --site-dock-clearance: calc(
-      max(1rem, env(safe-area-inset-bottom)) + 3.75rem + 0.625rem
+      max(0.625rem, env(safe-area-inset-bottom)) + 3.2rem + 0.45rem
     );
   }
 
@@ -567,8 +575,8 @@ h2,
     width: 100%;
     max-width: none;
     margin-inline: 0;
-    height: calc(100dvh - var(--shell-pad-top) - var(--shell-pad-bottom));
-    max-height: calc(100dvh - var(--shell-pad-top) - var(--shell-pad-bottom));
+    height: 100dvh;
+    max-height: 100dvh;
     padding: var(--shell-pad-top) var(--space-page) var(--shell-pad-bottom);
   }
 
@@ -638,6 +646,23 @@ h2,
   background: #e89578;
   border-color: #e89578;
   color: #06080f;
+}
+
+@media (hover: none), (pointer: coarse) {
+  a:hover {
+    color: var(--color-accent);
+  }
+
+  .btn:hover {
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .btn--primary:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #06080f;
+  }
 }
 
 .tag {

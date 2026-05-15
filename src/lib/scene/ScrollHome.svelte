@@ -73,7 +73,7 @@
 <div
 	class="scroll-home"
 	bind:this={scrollRoot}
-	style="--section-count: {sections.length}; --section-scroll: 50vh"
+	style="--section-count: {sections.length}"
 >
 	<div class="scroll-home__stage">
 		<TerminalWindow split homeChrome statusDot class="scroll-home__terminal">
@@ -137,6 +137,7 @@
 	.scroll-home {
 		position: relative;
 		z-index: var(--z-overlay);
+		--section-scroll: 50vh;
 		height: calc(var(--section-count) * var(--section-scroll, 100vh));
 	}
 
@@ -207,6 +208,10 @@
 	}
 
 	@media (max-width: 768px) {
+		.scroll-home {
+			--section-scroll: 100dvh;
+		}
+
 		.scroll-home__stage {
 			box-sizing: border-box;
 			flex-direction: column;
@@ -227,6 +232,7 @@
 			display: flex;
 			flex-direction: column;
 			overflow: hidden;
+			touch-action: pan-y;
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__bar) {
@@ -236,9 +242,8 @@
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {
 			flex: 1 1 auto;
 			min-height: 0;
-			overflow-y: auto;
-			overscroll-behavior: contain;
-			-webkit-overflow-scrolling: touch;
+			overflow: hidden;
+			touch-action: pan-y;
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__footer) {
@@ -260,8 +265,34 @@
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
-			min-height: min(30vh, 240px);
-			max-height: min(38vh, 300px);
+			min-height: min(26dvh, 220px);
+			max-height: min(30dvh, 260px);
+		}
+	}
+
+	@media (max-width: 768px) and (max-height: 650px) {
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {
+			--terminal-body-pad: 0.85rem 0.95rem 0.95rem;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__grid) {
+			grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 34%);
+			align-items: center;
+			gap: 0.75rem;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
+			order: 0;
+			min-height: min(22dvh, 8.5rem);
+			max-height: min(24dvh, 9rem);
+		}
+
+		.scroll-home__bio {
+			margin-top: 0.5rem;
+		}
+
+		.scroll-home__hint {
+			margin-top: 0.55rem;
 		}
 	}
 

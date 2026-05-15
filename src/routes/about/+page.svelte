@@ -45,21 +45,36 @@
 <style>
 	.profile {
 		display: grid;
-		gap: 1.5rem;
+		gap: 1.25rem;
 		align-items: start;
 	}
 
-	@media (min-width: 520px) {
+	@media (min-width: 36rem) {
 		.profile {
-			grid-template-columns: auto 1fr;
+			grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr);
+			gap: 1.5rem 1.75rem;
 		}
 	}
 
 	.profile__avatar {
+		display: block;
+		width: min(7.5rem, 38vw);
+		max-width: 100%;
+		aspect-ratio: 1;
+		height: auto;
 		border-radius: var(--radius-terminal);
 		border: 1px solid var(--color-border);
 		object-fit: cover;
-    width: 100%;
+	}
+
+	@media (min-width: 36rem) {
+		.profile__avatar {
+			width: 100%;
+		}
+	}
+
+	.profile__copy {
+		min-width: 0;
 	}
 
 	.profile__links {

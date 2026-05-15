@@ -172,6 +172,12 @@
 		background: rgba(217, 119, 87, 0.22);
 	}
 
+	@media (hover: none), (pointer: coarse) {
+		.clickme__btn:hover {
+			background: rgba(217, 119, 87, 0.12);
+		}
+	}
+
 	.clickme__btn--holding {
 		animation: shake 0.25s ease-in-out infinite;
 	}

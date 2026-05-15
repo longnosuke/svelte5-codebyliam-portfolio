@@ -105,6 +105,17 @@
 		color: var(--color-accent);
 	}
 
+	@media (hover: none), (pointer: coarse) {
+		.filter:hover:not(.filter--active) {
+			border-color: var(--color-border);
+			color: var(--color-text-muted);
+		}
+
+		.project-row:hover {
+			color: var(--color-text);
+		}
+	}
+
 	.project-row--soon {
 		opacity: 0.65;
 	}
