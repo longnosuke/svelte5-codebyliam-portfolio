@@ -10,11 +10,10 @@
 
 	type Props = {
 		hostPrompt?: string;
-		/** ms between idle ghost rotations */
 		rotateMs?: number;
 	};
 
-	let { hostPrompt = 'Liam@portfolio:~', rotateMs = 1000 }: Props = $props();
+	let { hostPrompt = 'Liam@portfolio:~', rotateMs = 2000 }: Props = $props();
 
 	const hints = terminalGhostHints();
 
@@ -26,7 +25,6 @@
 
 	const ghost = $derived(ghostSuffixFromHints(query, hints, rotateIndex));
 	const idleHint = $derived(hints[rotateIndex % hints.length] ?? '');
-
 	const showIdleGhost = $derived(!query);
 
 	$effect(() => {
@@ -42,8 +40,8 @@
 		if (reducedMotion) return;
 
 		const id = window.setInterval(() => {
-			if (!query) {
-				rotateIndex = (rotateIndex + 1) % Math.max(hints.length, 1);
+			if (!document.hidden && !query && !focused) {
+				rotateIndex = (rotateIndex + 1) % hints.length;
 			}
 		}, rotateMs);
 

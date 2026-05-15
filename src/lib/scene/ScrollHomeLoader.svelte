@@ -20,11 +20,3 @@
 	</div>
 {/if}
 
-<style>
-	.scroll-fallback {
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-	}
-</style>

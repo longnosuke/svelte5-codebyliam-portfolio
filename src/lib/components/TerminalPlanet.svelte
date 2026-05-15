@@ -48,11 +48,14 @@
 		position: relative;
 		z-index: 1;
 		width: min(100%, 340px);
+		height: min(100%, 340px);
+		max-width: min(100%, 340px);
 		max-height: min(100%, 340px);
-		height: auto;
 		aspect-ratio: 1;
 		object-fit: contain;
 		border-radius: 50%;
+		margin-inline: auto;
+		display: block;
 		animation: planet-float 6s ease-in-out infinite;
 	}
 
@@ -92,13 +95,15 @@
 
 	@media (max-width: 899px) {
 		.terminal-planet {
-			min-height: 200px;
-			max-height: 240px;
+			min-height: 100%;
+			max-height: none;
 		}
 
 		.terminal-planet__img {
-			width: min(92%, 180px);
-			max-height: 180px;
+			width: min(100%, clamp(11rem, 52vw, 13.75rem));
+			height: min(100%, clamp(11rem, 52vw, 13.75rem));
+			max-width: min(100%, clamp(11rem, 52vw, 13.75rem));
+			max-height: min(100%, clamp(11rem, 52vw, 13.75rem));
 		}
 	}
 </style>

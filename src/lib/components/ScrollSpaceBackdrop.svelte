@@ -6,14 +6,17 @@
 		spaceBackdropAssets,
 		spaceBackdropMotion
 	} from '$lib/data/spaceBackdrop';
+	import { homeScroll } from '$lib/scene/home-scroll';
 
 	type Props = {
-		scrollProgress?: number;
 		animate?: boolean;
+		/** Mobile: static stars only — no hero planet or parallax rAF. */
+		lite?: boolean;
 	};
 
-	let { scrollProgress = 0, animate = true }: Props = $props();
+	let { animate = true, lite = false }: Props = $props();
 
+	let root = $state<HTMLDivElement | undefined>();
 	let isMobile = $state(false);
 
 	$effect(() => {
@@ -21,28 +24,62 @@
 		isMobile = window.matchMedia('(max-width: 768px)').matches;
 	});
 
-	const eased = $derived(easeScrollProgress(animate ? scrollProgress : 0));
-	const planetScale = $derived(planetScaleFromScroll(eased, isMobile));
-	const parallaxY = $derived(-eased * spaceBackdropMotion.parallaxVh);
-	const planetOpacity = $derived(1 - eased * spaceBackdropMotion.planetOpacityFade);
+	$effect(() => {
+		if (!browser || !root || !animate || lite) return;
+
+		let frame = 0;
+		let lastEased = -1;
+
+		const tick = () => {
+			if (!root) return;
+			const eased = easeScrollProgress(homeScroll.progress);
+			if (eased !== lastEased) {
+				lastEased = eased;
+				const planetScale = planetScaleFromScroll(eased, isMobile);
+				root.style.setProperty('--scroll', String(eased));
+				root.style.setProperty('--planet-scale', String(planetScale));
+				root.style.setProperty('--parallax-y', `${-eased * spaceBackdropMotion.parallaxVh}vh`);
+				root.style.setProperty(
+					'--planet-opacity',
+					String(1 - eased * spaceBackdropMotion.planetOpacityFade)
+				);
+			}
+			frame = requestAnimationFrame(tick);
+		};
+
+		frame = requestAnimationFrame(tick);
+		return () => cancelAnimationFrame(frame);
+	});
+
+	$effect(() => {
+		if (!browser || !root || (animate && !lite)) return;
+		root.style.setProperty('--scroll', '0');
+		root.style.setProperty('--planet-scale', '1');
+		root.style.setProperty('--parallax-y', '0vh');
+		root.style.setProperty('--planet-opacity', '1');
+	});
 </script>
 
 <div
+	bind:this={root}
 	class="scroll-space"
-	style="--scroll: {eased}; --planet-scale: {planetScale}; --parallax-y: {parallaxY}vh; --planet-opacity: {planetOpacity}; --space-background: url('{spaceBackdropAssets.background}')"
+	class:scroll-space--lite={lite}
+	style="--space-background: url('{spaceBackdropAssets.background}')"
 	aria-hidden="true"
 >
 	<div class="scroll-space__background"></div>
-	<img
-		class="scroll-space__planet"
-		src={spaceBackdropAssets.planet}
-		alt=""
-		width="520"
-		height="420"
-		loading="eager"
-		decoding="async"
-		draggable="false"
-	/>
+	{#if !lite}
+		<img
+			class="scroll-space__planet"
+			src={spaceBackdropAssets.planet}
+			alt=""
+			width="520"
+			height="420"
+			loading="eager"
+			decoding="async"
+			draggable="false"
+		/>
+	{/if}
 </div>
 
 <style>
@@ -62,7 +99,7 @@
 		background-image: var(--space-background);
 		background-size: auto 160%;
 		background-position: left center;
-		transform: translate3d(0, var(--parallax-y), 0);
+		transform: translate3d(0, var(--parallax-y, 0), 0);
 		will-change: transform;
 	}
 
@@ -75,16 +112,21 @@
 		height: auto;
 		object-fit: contain;
 		object-position: 100% 100%;
-		transform: scale(var(--planet-scale));
+		transform: scale(var(--planet-scale, 1));
 		transform-origin: 100% 100%;
-		opacity: var(--planet-opacity);
+		opacity: var(--planet-opacity, 1);
 		will-change: transform, opacity;
 	}
 
-	@media (max-width: 768px) {
-		.scroll-space__planet {
-			width: min(62vw, 420px);
-		}
+	.scroll-space--lite {
+		opacity: 0.65;
+	}
+
+	.scroll-space--lite .scroll-space__background {
+		background-size: cover;
+		background-position: center;
+		transform: none;
+		will-change: auto;
 	}
 
 	@media (prefers-reduced-motion: reduce) {

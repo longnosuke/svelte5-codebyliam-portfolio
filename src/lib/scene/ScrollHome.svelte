@@ -14,9 +14,11 @@
 	import { homeSections } from '$lib/data/home';
 	import { site } from '$lib/data/site';
 
-	let scrollProgress = $state(0);
+	import { homeScroll } from './home-scroll';
+
 	let activeSection = $state(0);
 	let reducedMotion = $state(false);
+	let isMobile = $state(false);
 	let scrollRoot: HTMLElement | undefined;
 	let canvasReady = $state(false);
 
@@ -24,6 +26,7 @@
 	const current = $derived(sections[activeSection]);
 	onMount(() => {
 		reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		isMobile = window.matchMedia('(max-width: 768px)').matches;
 
 		const id = requestAnimationFrame(() => {
 			canvasReady = true;
@@ -39,13 +42,14 @@
 			trigger: scrollRoot,
 			start: 'top top',
 			end: 'bottom bottom',
-			scrub: 0.9,
+			scrub: isMobile ? true : 0.9,
 			onUpdate: (self) => {
-				scrollProgress = self.progress;
-				activeSection = Math.min(
+				homeScroll.progress = self.progress;
+				const section = Math.min(
 					sections.length - 1,
 					Math.floor(self.progress * sections.length)
 				);
+				if (section !== activeSection) activeSection = section;
 			}
 		});
 
@@ -57,10 +61,12 @@
 </script>
 
 {#if browser && canvasReady && !reducedMotion}
-	<ScrollSpaceBackdrop {scrollProgress} />
-	<SceneCanvas {scrollProgress} />
+	<ScrollSpaceBackdrop lite={isMobile} />
+	{#if !isMobile}
+		<SceneCanvas />
+	{/if}
 {:else if browser && canvasReady}
-	<ScrollSpaceBackdrop scrollProgress={0} animate={false} />
+	<ScrollSpaceBackdrop animate={false} />
 	<div class="static-fallback galaxy-backdrop" aria-hidden="true"></div>
 {/if}
 
@@ -198,6 +204,65 @@
 		inset: 0;
 		z-index: var(--z-canvas);
 		pointer-events: none;
+	}
+
+	@media (max-width: 768px) {
+		.scroll-home__stage {
+			box-sizing: border-box;
+			flex-direction: column;
+			height: 100dvh;
+			max-height: 100dvh;
+			align-items: stretch;
+			padding: max(0.5rem, env(safe-area-inset-top)) 0.625rem var(--site-dock-clearance)
+				0.625rem;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal) {
+			width: 100%;
+			max-width: none;
+			flex: 1 1 auto;
+			min-height: 0;
+			height: 100%;
+			max-height: none;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__bar) {
+			flex-shrink: 0;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {
+			flex: 1 1 auto;
+			min-height: 0;
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__footer) {
+			flex-shrink: 0;
+		}
+
+		.scroll-home__actions {
+			flex-direction: column;
+			gap: 0.65rem;
+			margin-top: 1.25rem;
+		}
+
+		.scroll-home__actions :global(.btn) {
+			width: 100%;
+		}
+
+		.scroll-home__hint {
+			margin-top: 0.85rem;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
+			min-height: min(30vh, 240px);
+			max-height: min(38vh, 300px);
+		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {

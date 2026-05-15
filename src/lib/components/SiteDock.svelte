@@ -232,6 +232,14 @@
 		}
 	}
 
+	@media (max-width: 768px), (pointer: coarse) {
+		.site-dock__pill {
+			backdrop-filter: none;
+			-webkit-backdrop-filter: none;
+			background: rgba(16, 18, 30, 0.98);
+		}
+	}
+
 	@media (prefers-reduced-motion: reduce) {
 		.site-dock__enter {
 			animation: none;

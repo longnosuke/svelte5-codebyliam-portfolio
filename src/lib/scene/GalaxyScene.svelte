@@ -7,13 +7,14 @@
 	import Planet from './objects/Planet.svelte';
 	import { getGlowSpriteTexture } from './materials/glowSprite';
 
+	import { homeScroll } from './home-scroll';
+
 	type Props = {
-		scrollProgress?: number;
 		starCount?: number;
 		isMobile?: boolean;
 	};
 
-	let { scrollProgress = 0, starCount = 1200, isMobile = false }: Props = $props();
+	let { starCount = 1200, isMobile = false }: Props = $props();
 
 	let starsRef = $state<Points | undefined>();
 	let coreGroupRef = $state<Group | undefined>();
@@ -159,15 +160,20 @@
 		};
 	});
 
-	const starOpacity = $derived(0.9 - scrollProgress * 0.4);
-
 	useTask((delta) => {
-		if (starsRef) starsRef.rotation.y += delta * 0.02;
+		const scrollProgress = homeScroll.progress;
+
+		if (starsRef) {
+			starsRef.rotation.y += delta * 0.02;
+			const material = starsRef.material;
+			if (material && !Array.isArray(material) && 'opacity' in material) {
+				material.opacity = 0.9 - scrollProgress * 0.4;
+			}
+		}
 
 		if (coreGroupRef) {
-			const t = scrollProgress;
-			coreGroupRef.rotation.y = t * Math.PI * 0.5;
-			coreGroupRef.rotation.x = Math.sin(t * Math.PI) * 0.15;
+			coreGroupRef.rotation.y = scrollProgress * Math.PI * 0.5;
+			coreGroupRef.rotation.x = Math.sin(scrollProgress * Math.PI) * 0.15;
 		}
 
 		if (!cometGroupRef) return;
@@ -229,7 +235,7 @@
 				size={isMobile ? 0.05 : 0.065}
 				color="#f4f3ee"
 				transparent
-				opacity={starOpacity}
+				opacity={0.9}
 				sizeAttenuation
 				depthWrite={false}
 				blending={AdditiveBlending}

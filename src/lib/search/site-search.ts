@@ -32,6 +32,10 @@ const items: SiteSearchItem[] = [
 
 const itemById = new Map(items.map((item) => [item.id, item]));
 
+const navigableItems = items.filter((item) => !item.external);
+
+const terminalHints = [...homeSections.map((section) => section.command), 'cd'];
+
 const index = new Document({
 	tokenize: 'forward',
 	document: {
@@ -62,7 +66,7 @@ function collectIds(results: unknown): string[] {
 export function searchSite(query: string, limit = 8): SiteSearchItem[] {
 	const trimmed = query.trim();
 	if (!trimmed) {
-		return items.filter((item) => !item.external).slice(0, limit);
+		return navigableItems.slice(0, limit);
 	}
 
 	const ids = collectIds(index.search(trimmed, { limit: limit * 2 }));
@@ -73,14 +77,13 @@ export function searchSite(query: string, limit = 8): SiteSearchItem[] {
 }
 
 export function navigableSiteItems(): SiteSearchItem[] {
-	return items.filter((item) => !item.external);
+	return navigableItems;
 }
 
 function pathToken(item: SiteSearchItem): string {
 	return item.path.replace(/^\//, '') || 'home';
 }
 
-/** Ghost suffix for `cd` — pages and portfolio subpages via FlexSearch. */
 export function sitePathGhost(query: string, hintIndex = 0): string {
 	const matches = searchSite(query, 16);
 	const item = matches[hintIndex % matches.length] ?? matches[0];
@@ -105,16 +108,12 @@ export function resolveSitePath(query: string, hintIndex = 0): SiteSearchItem | 
 	return matches[hintIndex % matches.length] ?? matches[0];
 }
 
-/** Idle rotation: section commands plus a single `cd` entry (paths complete while typing). */
-export function terminalGhostHints(): string[] {
-	const commands = homeSections.map((section) => section.command);
-	return [...commands, 'cd'];
+export function terminalGhostHints(): readonly string[] {
+	return terminalHints;
 }
 
-/** Ghost suffix after `cd` — pages and portfolio subpages. */
 export function cdPathGhost(pathQuery: string, hintIndex = 0): string {
-	const items = navigableSiteItems();
-	const item = items[hintIndex % items.length] ?? items[0];
+	const item = navigableItems[hintIndex % navigableItems.length] ?? navigableItems[0];
 	if (!item) return '';
 
 	const token = pathToken(item);
@@ -167,7 +166,7 @@ export function resolveTerminalInput(
 
 	const lower = trimmed.toLowerCase();
 
-	if (lower === 'whoami' || lower.startsWith('whoami')) return { href: '/' };
+	if (lower === 'whoami' || lower.startsWith('whoami')) return { href: '/about' };
 	if (lower.includes('work') || lower.startsWith('ls')) return { href: '/portfolio' };
 	if (lower.includes('contact')) return { href: '/contact' };
 

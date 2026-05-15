@@ -34,12 +34,12 @@
 		</div>
 	</TerminalWindow>
 
-	<div class="easter">
+	<!-- <div class="easter">
 		<TerminalWindow title="~/about" command="./run easter-egg.sh">
 			<p class="terminal__output terminal__output--muted">Hold to increment · synced live</p>
 			<ClickMe />
 		</TerminalWindow>
-	</div>
+	</div> -->
 </div>
 
 <style>
@@ -59,6 +59,7 @@
 		border-radius: var(--radius-terminal);
 		border: 1px solid var(--color-border);
 		object-fit: cover;
+    width: 100%;
 	}
 
 	.profile__links {
