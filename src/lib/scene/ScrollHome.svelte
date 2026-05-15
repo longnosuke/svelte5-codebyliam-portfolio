@@ -86,7 +86,8 @@
 			{/snippet}
 
 			{#snippet footer()}
-				<TerminalStats />
+				<!-- <TerminalStats /> -->
+        <!-- TODO: add chatbox using the flexSearch input code -->
 			{/snippet}
 
 			{#key activeSection}

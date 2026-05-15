@@ -21,8 +21,8 @@
 			class="terminal-planet__img"
 			src={meta.src}
 			alt={meta.label}
-			width="400"
-			height="400"
+			width="1254"
+			height="1254"
 			loading="lazy"
 			decoding="async"
 		/>
@@ -44,44 +44,6 @@
 		animation: planet-enter 0.45s ease;
 	}
 
-	.terminal-planet::before {
-		content: '';
-		position: absolute;
-		inset: 4%;
-		z-index: -2;
-		border-radius: 50%;
-		background:
-			radial-gradient(circle at 62% 42%, rgba(255, 255, 255, 0.08), transparent 18%),
-			radial-gradient(circle at 50% 50%, var(--planet-accent-soft), transparent 62%);
-		filter: blur(18px);
-		opacity: 0.9;
-	}
-
-	.terminal-planet__orbit {
-		position: absolute;
-		inset: 10%;
-		z-index: -1;
-		border: 1px solid color-mix(in srgb, var(--planet-accent) 26%, transparent);
-		border-radius: 50%;
-		box-shadow:
-			0 0 42px color-mix(in srgb, var(--planet-accent) 24%, transparent),
-			inset 0 0 32px rgba(255, 255, 255, 0.03);
-		opacity: 0.65;
-		transform: rotate(-16deg) scaleX(1.08);
-	}
-
-	.terminal-planet__glow {
-		position: absolute;
-		inset: 3%;
-		z-index: 0;
-		background:
-			radial-gradient(circle at 68% 36%, rgba(255, 255, 255, 0.18), transparent 10%),
-			radial-gradient(circle at 50% 50%, var(--planet-accent-soft), transparent 64%);
-		filter: blur(4px);
-		opacity: 0.95;
-		pointer-events: none;
-	}
-
 	.terminal-planet__img {
 		position: relative;
 		z-index: 1;
@@ -91,9 +53,6 @@
 		aspect-ratio: 1;
 		object-fit: contain;
 		border-radius: 50%;
-		filter: drop-shadow(0 0 12px color-mix(in srgb, var(--planet-accent) 54%, transparent))
-			drop-shadow(0 0 42px var(--planet-accent-soft))
-			drop-shadow(0 20px 52px rgba(0, 0, 0, 0.72));
 		animation: planet-float 6s ease-in-out infinite;
 	}
 

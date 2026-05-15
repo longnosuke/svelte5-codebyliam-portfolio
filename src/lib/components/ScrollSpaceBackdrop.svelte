@@ -60,8 +60,8 @@
 		inset: 0;
 		background-color: var(--color-bg);
 		background-image: var(--space-background);
-		background-size: cover;
-		background-position: center;
+		background-size: auto 160%;
+		background-position: left center;
 		transform: translate3d(0, var(--parallax-y), 0);
 		will-change: transform;
 	}

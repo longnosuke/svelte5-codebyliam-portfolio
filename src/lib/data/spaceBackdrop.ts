@@ -5,6 +5,8 @@ export const spaceBackdropAssets = {
 } as const;
 
 export const spaceBackdropMotion = {
+	planetScaleStart: 1.28,
+	planetScaleStartMobile: 1.18,
 	planetScaleMax: 2.2,
 	planetScaleMaxMobile: 2.2,
 	parallaxVh: 2,
@@ -16,8 +18,11 @@ export function easeScrollProgress(progress: number): number {
 }
 
 export function planetScaleFromScroll(easedProgress: number, mobile: boolean): number {
+	const start = mobile
+		? spaceBackdropMotion.planetScaleStartMobile
+		: spaceBackdropMotion.planetScaleStart;
 	const max = mobile
 		? spaceBackdropMotion.planetScaleMaxMobile
 		: spaceBackdropMotion.planetScaleMax;
-	return 1 + easedProgress * max;
+	return start + easedProgress * max;
 }
