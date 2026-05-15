@@ -30,6 +30,7 @@
     "@threlte/core": "^8.5.14",
     "@threlte/extras": "^9.18.0",
     "class-variance-authority": "^0.7.1",
+    "flexsearch": "^0.8.212",
     "gsap": "^3.13.0",
     "lucide-svelte": "^0.559.0",
     "three": "^0.184.0"

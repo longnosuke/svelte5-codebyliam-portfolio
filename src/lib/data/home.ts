@@ -8,7 +8,7 @@ export const homeStats = [
 
 export const homeTech = [
   { name: "Svelte", icon: "svelte" as const },
-  { name: "TypeScript", icon: "typescript" as const },
+  { name: "RubyOnRails", icon: "typescript" as const },
   { name: "WordPress", icon: "wordpress" as const },
 ] as const;
 

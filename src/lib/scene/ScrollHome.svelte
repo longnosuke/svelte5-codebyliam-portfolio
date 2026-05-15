@@ -9,7 +9,7 @@
 	import SceneCanvas from './SceneCanvas.svelte';
 	import TerminalWindow from '$lib/components/TerminalWindow.svelte';
 	import TerminalPlanet from '$lib/components/TerminalPlanet.svelte';
-	import TerminalStats from '$lib/components/TerminalStats.svelte';
+	import TerminalCommandInput from '$lib/components/TerminalCommandInput.svelte';
 	import TerminalTechTags from '$lib/components/TerminalTechTags.svelte';
 	import { homeSections } from '$lib/data/home';
 	import { site } from '$lib/data/site';
@@ -22,7 +22,6 @@
 
 	const sections = homeSections;
 	const current = $derived(sections[activeSection]);
-
 	onMount(() => {
 		reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -71,14 +70,7 @@
 	style="--section-count: {sections.length}; --section-scroll: 50vh"
 >
 	<div class="scroll-home__stage">
-		<TerminalWindow
-			command={current.command}
-			prompt="Liam@portfolio:~"
-			split
-			homeChrome
-			statusDot
-			class="scroll-home__terminal"
-		>
+		<TerminalWindow split homeChrome statusDot class="scroll-home__terminal">
 			{#snippet aside()}
 				{#key current.planet}
 					<TerminalPlanet planet={current.planet} />
@@ -86,8 +78,7 @@
 			{/snippet}
 
 			{#snippet footer()}
-				<!-- <TerminalStats /> -->
-        <!-- TODO: add chatbox using the flexSearch input code -->
+				<TerminalCommandInput hostPrompt="Liam@portfolio:~" />
 			{/snippet}
 
 			{#key activeSection}
@@ -105,6 +96,8 @@
 
 					{#if current.showBio}
 						<p class="scroll-home__bio terminal__output terminal__output--muted">{site.bio}</p>
+					{/if}
+					{#if current.showTech}
 						<TerminalTechTags />
 					{/if}
 
