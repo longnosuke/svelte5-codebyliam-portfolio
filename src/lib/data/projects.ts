@@ -22,10 +22,68 @@ export type Project = {
 	imageUrl: string;
 	url: string;
 	comingSoon?: boolean;
+	promoVideoUrl?: string;
+	promoVideoPoster?: string;
 	detail: ProjectDetail;
 };
 
 export const projects: Project[] = [
+	{
+		slug: 'easybill',
+		title: 'EasyBill',
+		type: 'fullstack',
+		imageUrl: 'easybill.webp',
+		url: 'https://easybill.codebyliam.com/',
+		promoVideoUrl: '/projects/easybill-promo.mp4',
+		promoVideoPoster: 'easybill.webp',
+		detail: {
+			summary:
+				'Mobile-first property management for Vietnamese landlords — room revenue, AI meter readings, and PDF invoices in one calm interface.',
+			techStack: [
+				'SvelteKit 5',
+				'Svelte 5 runes',
+				'Bun',
+				'SQLite',
+				'Drizzle ORM',
+				'Tailwind CSS v4',
+				'OpenRouter vision OCR',
+				'Kamal'
+			],
+			problem:
+				'Parents and landlords were tracking multiple rental rooms with spreadsheets, manual utility math, and ad-hoc invoices. Nothing was mobile-first or fully in Vietnamese, and re-logging in every week added friction.',
+			solution:
+				'Built EasyBill as a SvelteKit app with a revenue dashboard, room payment status, AI-assisted meter capture, automated billing, PDF/share invoices, multi-merchant SQLite isolation, and one-year PIN sessions tuned for non-technical users.',
+			screenshots: [
+				{
+					src: 'easybill.webp',
+					alt: 'EasyBill revenue dashboard on mobile',
+					caption: 'Monthly collection hero with room status filters'
+				},
+				{
+					src: 'easybill-rooms.webp',
+					alt: 'EasyBill room list',
+					caption: 'Room grid with paid, unpaid, and vacant states'
+				},
+				{
+					src: 'easybill-invoice.webp',
+					alt: 'EasyBill invoice detail',
+					caption: 'Automated bill breakdown ready to export'
+				},
+				{
+					src: 'easybill-reading.webp',
+					alt: 'EasyBill meter reading flow',
+					caption: 'New reading entry with camera-assisted capture'
+				},
+				{
+					src: 'easybill-settings.webp',
+					alt: 'EasyBill rate settings',
+					caption: 'Per-room utility rates and fee configuration'
+				}
+			],
+			role: 'Fullstack developer',
+			year: 2026
+		}
+	},
 	{
 		slug: 'ticket-support',
 		title: 'Ticket Support',
