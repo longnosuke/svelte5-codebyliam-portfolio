@@ -227,8 +227,8 @@ h2,
   width: var(--terminal-max);
   margin-inline: auto;
   padding: var(--shell-pad-top) var(--space-page) var(--shell-pad-bottom);
-  height: calc(100vh - var(--shell-pad-top) - var(--shell-pad-bottom));
-  max-height: calc(100vh - var(--shell-pad-top) - var(--shell-pad-bottom));
+  height: 100vh;
+  max-height: 100vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;

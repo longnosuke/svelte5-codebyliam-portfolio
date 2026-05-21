@@ -74,25 +74,6 @@
 			</figure>
 		</div>
 
-		{#if project.promoVideoUrl}
-			<section class="block block--video" aria-labelledby="demo-heading">
-				<p id="demo-heading" class="block__label">$ demo</p>
-				<video
-					class="promo-video"
-					controls
-					playsinline
-					preload="metadata"
-					poster={project.promoVideoPoster
-						? `/projects/${project.promoVideoPoster}`
-						: undefined}
-					aria-label="{project.title} product demo"
-				>
-					<source src={project.promoVideoUrl} type="video/mp4" />
-					<track kind="captions" />
-				</video>
-			</section>
-		{/if}
-
 		<section class="block block--stack" aria-labelledby="stack-heading">
 			<p id="stack-heading" class="block__label">$ stack</p>
 			<ul class="stack">
@@ -289,18 +270,6 @@
 		font-family: var(--font-mono);
 		font-size: var(--text-sm);
 		color: var(--color-accent);
-	}
-
-	.promo-video {
-		display: block;
-		width: 100%;
-		max-width: 720px;
-		margin: 0 auto;
-		border-radius: 6px;
-		border: 1px solid var(--color-border);
-		background: #000;
-		aspect-ratio: 9 / 16;
-		object-fit: contain;
 	}
 
 	.stack {

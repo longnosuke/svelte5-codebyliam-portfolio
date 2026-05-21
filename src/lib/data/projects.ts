@@ -22,8 +22,6 @@ export type Project = {
 	imageUrl: string;
 	url: string;
 	comingSoon?: boolean;
-	promoVideoUrl?: string;
-	promoVideoPoster?: string;
 	detail: ProjectDetail;
 };
 
@@ -34,8 +32,6 @@ export const projects: Project[] = [
 		type: 'fullstack',
 		imageUrl: 'easybill.webp',
 		url: 'https://easybill.codebyliam.com/',
-		promoVideoUrl: '/projects/easybill-promo.mp4',
-		promoVideoPoster: 'easybill.webp',
 		detail: {
 			summary:
 				'Mobile-first property management for Vietnamese landlords — room revenue, AI meter readings, and PDF invoices in one calm interface.',
