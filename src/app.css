@@ -31,7 +31,14 @@
   --z-overlay: 10;
   --z-nav: 100;
   --z-dock: 100;
+  --z-scroll-hint: 95;
   --z-cursor: 150;
+  --site-dock-offset: max(1rem, env(safe-area-inset-bottom));
+  --site-dock-pill: 4.25rem;
+  --site-dock-gap: 0.625rem;
+  --site-dock-clearance: calc(
+    var(--site-dock-offset) + var(--site-dock-pill) + var(--site-dock-gap)
+  );
   --space-page: clamp(1.25rem, 5vw, 3rem);
   --content-max: min(1100px, 100% - 2 * var(--space-page));
   --terminal-max: min(920px, 100%);
@@ -222,7 +229,10 @@ h2,
 
 .page-shell {
   --shell-pad-top: clamp(2.5rem, 8vh, 4rem);
-  --shell-pad-bottom: clamp(5rem, 12vh, 7rem);
+  --shell-pad-bottom: max(
+    clamp(5rem, 12vh, 7rem),
+    var(--site-dock-clearance)
+  );
   box-sizing: border-box;
   width: var(--terminal-max);
   margin-inline: auto;
@@ -238,6 +248,7 @@ h2,
   flex: 1 1 auto;
   min-height: 0;
   width: 100%;
+  margin-bottom: 0.125rem;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -533,16 +544,58 @@ h2,
   }
 }
 
+.scroll-hint {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+  pointer-events: none;
+  user-select: none;
+}
+
+.scroll-hint--inline {
+  margin-top: 1.25rem;
+}
+
+.scroll-hint--fixed {
+  position: fixed;
+  left: 50%;
+  z-index: var(--z-scroll-hint);
+  transform: translateX(-50%);
+  bottom: calc(var(--site-dock-clearance) + 0.25rem);
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: rgba(8, 10, 18, 0.82);
+  animation: scroll-hint-pulse 2.4s ease-in-out infinite;
+}
+
+.scroll-hint--fixed.scroll-hint--static {
+  animation: none;
+  opacity: 0.85;
+}
+
+@keyframes scroll-hint-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
 @media (max-width: 768px) {
   :root {
     --space-page: 0.625rem;
     --terminal-max: 100%;
     --terminal-body-pad: 1.1rem 1.15rem 1.2rem;
     --title-xl: clamp(1.6rem, 1.1rem + 2.5vw, 2rem);
-    /* dock offset + compact pill + gap above dock + safe area */
-    --site-dock-clearance: calc(
-      max(0.625rem, env(safe-area-inset-bottom)) + 3.2rem + 0.45rem
-    );
+    --site-dock-offset: max(0.625rem, env(safe-area-inset-bottom));
+    --site-dock-pill: 3.75rem;
+    --site-dock-gap: 0.625rem;
   }
 
   .terminal {
@@ -578,6 +631,10 @@ h2,
     height: 100dvh;
     max-height: 100dvh;
     padding: var(--shell-pad-top) var(--space-page) var(--shell-pad-bottom);
+  }
+
+  .page-shell > .terminal {
+    margin-bottom: 0.25rem;
   }
 
   .page-shell .meta-panel {
@@ -682,6 +739,11 @@ h2,
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .scroll-hint--fixed {
+    animation: none;
+    opacity: 0.85;
   }
 
   .terminal__cursor {

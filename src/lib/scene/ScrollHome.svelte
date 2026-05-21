@@ -42,7 +42,7 @@
 			trigger: scrollRoot,
 			start: 'top top',
 			end: 'bottom bottom',
-			scrub: isMobile ? true : 0.9,
+			scrub: isMobile ? 0.12 : 0.9,
 			onUpdate: (self) => {
 				homeScroll.progress = self.progress;
 				const section = Math.min(
@@ -78,9 +78,13 @@
 	<div class="scroll-home__stage">
 		<TerminalWindow split homeChrome statusDot class="scroll-home__terminal">
 			{#snippet aside()}
-				{#key current.planet}
-					<TerminalPlanet planet={current.planet} />
-				{/key}
+				{#if isMobile}
+					<TerminalPlanet planet={current.planet} stableSwap />
+				{:else}
+					{#key current.planet}
+						<TerminalPlanet planet={current.planet} />
+					{/key}
+				{/if}
 			{/snippet}
 
 			{#snippet footer()}
@@ -126,7 +130,7 @@
 				</div>
 			{/key}
 
-			<p class="scroll-home__hint" aria-hidden="true">
+			<p class="scroll-hint scroll-hint--inline" aria-hidden="true">
 				scroll · {activeSection + 1}/{sections.length}
 			</p>
 		</TerminalWindow>
@@ -192,14 +196,6 @@
 		background: transparent;
 	}
 
-	.scroll-home__hint {
-		margin: 1.25rem 0 0;
-		font-family: var(--font-mono);
-		font-size: var(--text-sm);
-		color: var(--color-text-muted);
-		opacity: 0.7;
-	}
-
 	.static-fallback {
 		position: fixed;
 		inset: 0;
@@ -210,6 +206,7 @@
 	@media (max-width: 768px) {
 		.scroll-home {
 			--section-scroll: 100dvh;
+			--scroll-home-planet-zone: 50%;
 		}
 
 		.scroll-home__stage {
@@ -242,12 +239,46 @@
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {
 			flex: 1 1 auto;
 			min-height: 0;
+			display: flex;
+			flex-direction: column;
 			overflow: hidden;
 			touch-action: pan-y;
 		}
 
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__grid) {
+			display: flex;
+			flex: 1 1 auto;
+			flex-direction: column;
+			min-height: 0;
+			gap: 0;
+			grid-template-columns: none;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__main) {
+			flex: 1 1 var(--scroll-home-planet-zone);
+			min-height: 0;
+			max-height: var(--scroll-home-planet-zone);
+			overflow-y: auto;
+			overscroll-behavior: contain;
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
+			order: 2;
+			flex: 0 0 var(--scroll-home-planet-zone);
+			min-height: var(--scroll-home-planet-zone);
+			max-height: var(--scroll-home-planet-zone);
+			align-items: center;
+			justify-content: center;
+			overflow: hidden;
+		}
+
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__footer) {
 			flex-shrink: 0;
+		}
+
+		.scroll-home__content {
+			animation: none;
 		}
 
 		.scroll-home__actions {
@@ -260,38 +291,25 @@
 			width: 100%;
 		}
 
-		.scroll-home__hint {
+		.scroll-hint--inline {
 			margin-top: 0.85rem;
-		}
-
-		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
-			min-height: min(26dvh, 220px);
-			max-height: min(30dvh, 260px);
 		}
 	}
 
 	@media (max-width: 768px) and (max-height: 650px) {
+		.scroll-home {
+			--scroll-home-planet-zone: 46%;
+		}
+
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {
 			--terminal-body-pad: 0.85rem 0.95rem 0.95rem;
-		}
-
-		.scroll-home__stage :global(.scroll-home__terminal .terminal__grid) {
-			grid-template-columns: minmax(0, 1fr) minmax(5.5rem, 34%);
-			align-items: center;
-			gap: 0.75rem;
-		}
-
-		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
-			order: 0;
-			min-height: min(22dvh, 8.5rem);
-			max-height: min(24dvh, 9rem);
 		}
 
 		.scroll-home__bio {
 			margin-top: 0.5rem;
 		}
 
-		.scroll-home__hint {
+		.scroll-hint--inline {
 			margin-top: 0.55rem;
 		}
 	}

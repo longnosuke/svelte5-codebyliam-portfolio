@@ -1,15 +1,14 @@
 <script lang="ts">
+	import SeoHead from '$lib/components/SeoHead.svelte';
 	import ProjectCaseStudy from '$lib/components/ProjectCaseStudy.svelte';
+	import { projectSeo } from '$lib/seo';
 
 	let { data } = $props();
 
 	const project = $derived(data.project);
-	const detail = $derived(project.detail);
+	const seo = $derived(projectSeo(project));
 </script>
 
-<svelte:head>
-	<title>{project.title} — CodebyLiam</title>
-	<meta name="description" content={detail.summary} />
-</svelte:head>
+<SeoHead {...seo} />
 
 <ProjectCaseStudy {project} />

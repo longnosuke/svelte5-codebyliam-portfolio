@@ -4,6 +4,7 @@
 	import favicon from '../assets/favicon.png';
 	import GalaxyBackdrop from '$lib/components/GalaxyBackdrop.svelte';
 	import SiteCursor from '$lib/components/SiteCursor.svelte';
+	import ScrollHint from '$lib/components/ScrollHint.svelte';
 	import SiteDock from '$lib/components/SiteDock.svelte';
 	import { installInteractionGuards } from '$lib/interactionGuards';
 
@@ -19,4 +20,5 @@
 <GalaxyBackdrop />
 <SiteCursor />
 <SiteDock />
+<ScrollHint />
 <main class="main--terminal main--with-dock">{@render children()}</main>

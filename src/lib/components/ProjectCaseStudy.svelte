@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import ImageLightbox from '$lib/components/ImageLightbox.svelte';
+	import ProjectTechStack from '$lib/components/ProjectTechStack.svelte';
 	import TerminalWindow from '$lib/components/TerminalWindow.svelte';
 	import { projects, type Project } from '$lib/data/projects';
 
@@ -7,6 +10,8 @@
 	};
 
 	let { project }: Props = $props();
+
+	let heroViewport: HTMLDivElement | undefined = $state();
 
 	const detail = $derived(project.detail);
 	const hasLiveUrl = $derived(
@@ -19,6 +24,62 @@
 	const index = $derived(projects.findIndex((p) => p.slug === project.slug));
 	const prev = $derived(index > 0 ? projects[index - 1] : null);
 	const next = $derived(index < projects.length - 1 ? projects[index + 1] : null);
+
+	onMount(() => {
+		if (!project.heroScroll || !heroViewport) return;
+
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		if (reducedMotion) return;
+
+		const el = heroViewport;
+		let direction = 1;
+		let paused = false;
+		let frame = 0;
+		let resumeTimer: ReturnType<typeof setTimeout> | undefined;
+
+		const pause = () => {
+			paused = true;
+		};
+		const resume = () => {
+			clearTimeout(resumeTimer);
+			paused = false;
+		};
+		const pauseBriefly = () => {
+			pause();
+			clearTimeout(resumeTimer);
+			resumeTimer = setTimeout(resume, 2400);
+		};
+
+		el.addEventListener('pointerenter', pause);
+		el.addEventListener('pointerleave', resume);
+		el.addEventListener('focusin', pause);
+		el.addEventListener('focusout', resume);
+		el.addEventListener('wheel', pauseBriefly, { passive: true });
+		el.addEventListener('touchstart', pauseBriefly, { passive: true });
+
+		const tick = () => {
+			const maxScroll = el.scrollHeight - el.clientHeight;
+			if (!paused && maxScroll > 4) {
+				el.scrollTop += direction * 0.55;
+				if (el.scrollTop >= maxScroll - 1) direction = -1;
+				else if (el.scrollTop <= 1) direction = 1;
+			}
+			frame = requestAnimationFrame(tick);
+		};
+
+		frame = requestAnimationFrame(tick);
+
+		return () => {
+			cancelAnimationFrame(frame);
+			clearTimeout(resumeTimer);
+			el.removeEventListener('pointerenter', pause);
+			el.removeEventListener('pointerleave', resume);
+			el.removeEventListener('focusin', pause);
+			el.removeEventListener('focusout', resume);
+			el.removeEventListener('wheel', pauseBriefly);
+			el.removeEventListener('touchstart', pauseBriefly);
+		};
+	});
 </script>
 
 <div class="page-shell">
@@ -63,24 +124,44 @@
 				</div>
 			</div>
 
-			<figure class="hero">
-				<img
-					src="/projects/{project.imageUrl}"
-					alt={project.title}
-					width="1200"
-					height="720"
-					decoding="async"
-				/>
+			<figure class="hero" class:hero--scroll={project.heroScroll}>
+				{#if project.heroScroll}
+					<div
+						class="hero__viewport"
+						bind:this={heroViewport}
+						tabindex="0"
+						aria-label="{project.title} app preview — scroll to explore"
+					>
+						<ImageLightbox
+							src="/projects/{project.imageUrl}"
+							alt="{project.title} mobile app screenshot"
+						>
+							<img
+								src="/projects/{project.imageUrl}"
+								alt="{project.title} mobile app screenshot"
+								width="780"
+								height="1688"
+								decoding="async"
+							/>
+						</ImageLightbox>
+					</div>
+				{:else}
+					<ImageLightbox src="/projects/{project.imageUrl}" alt={project.title}>
+						<img
+							src="/projects/{project.imageUrl}"
+							alt={project.title}
+							width="1200"
+							height="720"
+							decoding="async"
+						/>
+					</ImageLightbox>
+				{/if}
 			</figure>
 		</div>
 
 		<section class="block block--stack" aria-labelledby="stack-heading">
 			<p id="stack-heading" class="block__label">$ stack</p>
-			<ul class="stack">
-				{#each detail.techStack as tech}
-					<li>{tech}</li>
-				{/each}
-			</ul>
+			<ProjectTechStack items={detail.techStack} />
 		</section>
 
 		<div class="panels">
@@ -113,14 +194,26 @@
 								<div class="shot__chrome" aria-hidden="true">
 									<span></span><span></span><span></span>
 								</div>
-								<img
-									src="/projects/{shot.src}"
-									alt={shot.alt}
-									loading="lazy"
-									decoding="async"
-									width="800"
-									height="480"
-								/>
+								<div
+									class="shot__viewport"
+									tabindex="0"
+									aria-label="{shot.alt} — scroll to explore"
+								>
+									<ImageLightbox
+										src="/projects/{shot.src}"
+										alt={shot.alt}
+										caption={shot.caption}
+									>
+										<img
+											src="/projects/{shot.src}"
+											alt={shot.alt}
+											loading="lazy"
+											decoding="async"
+											width="800"
+											height="480"
+										/>
+									</ImageLightbox>
+								</div>
 								{#if shot.caption}
 									<figcaption>{shot.caption}</figcaption>
 								{/if}
@@ -252,11 +345,52 @@
 		z-index: 1;
 	}
 
-	.hero img {
+	.hero :global(.lightbox-trigger img) {
 		display: block;
 		width: 100%;
 		aspect-ratio: 5 / 3;
 		object-fit: cover;
+	}
+
+	.hero--scroll .hero__viewport {
+		max-height: min(52vh, 420px);
+		overflow-y: auto;
+		overflow-x: hidden;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-border) transparent;
+	}
+
+	.hero--scroll .hero__viewport:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 2px;
+	}
+
+	.hero--scroll .hero__viewport::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.hero--scroll .hero__viewport::-webkit-scrollbar-thumb {
+		border-radius: 3px;
+		background: var(--color-border);
+	}
+
+	.hero--scroll :global(.lightbox-trigger img) {
+		width: 100%;
+		height: auto;
+		aspect-ratio: auto;
+		object-fit: unset;
+	}
+
+	.hero--scroll::after {
+		content: '';
+		position: absolute;
+		inset: auto 0 0;
+		height: 2.75rem;
+		background: linear-gradient(to top, rgba(12, 14, 24, 0.92), transparent);
+		pointer-events: none;
+		z-index: 2;
 	}
 
 	.block {
@@ -270,25 +404,6 @@
 		font-family: var(--font-mono);
 		font-size: var(--text-sm);
 		color: var(--color-accent);
-	}
-
-	.stack {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-	}
-
-	.stack li {
-		padding: 0.35rem 0.85rem;
-		border-radius: 4px;
-		border: 1px solid var(--color-border);
-		font-family: var(--font-mono);
-		font-size: 0.8rem;
-		color: var(--color-text-muted);
-		background: rgba(0, 0, 0, 0.2);
 	}
 
 	.panels {
@@ -378,11 +493,40 @@
 		background: #5c9e6b;
 	}
 
-	.shot img {
+	.shot__viewport {
+		max-height: min(42vh, 360px);
+		overflow-y: auto;
+		overflow-x: hidden;
+		overscroll-behavior: contain;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: thin;
+		scrollbar-color: var(--color-border) transparent;
+	}
+
+	.shot__viewport:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: -2px;
+	}
+
+	.shot__viewport::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.shot__viewport::-webkit-scrollbar-thumb {
+		border-radius: 3px;
+		background: var(--color-border);
+	}
+
+	.shot__viewport :global(.lightbox-trigger) {
+		display: block;
+	}
+
+	.shot__viewport :global(.lightbox-trigger img) {
 		display: block;
 		width: 100%;
-		aspect-ratio: 5 / 3;
-		object-fit: cover;
+		height: auto;
+		aspect-ratio: auto;
+		object-fit: unset;
 	}
 
 	.shot figcaption {

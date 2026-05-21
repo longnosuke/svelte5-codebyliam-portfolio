@@ -4,9 +4,11 @@
 
 	type Props = {
 		planet: PlanetId;
+		/** Mobile home: swap planets without remount / enter animation. */
+		stableSwap?: boolean;
 	};
 
-	let { planet }: Props = $props();
+	let { planet, stableSwap = false }: Props = $props();
 	let tiltX = $state(0);
 	let tiltY = $state(0);
 	let spin = $state(0);
@@ -56,10 +58,43 @@
 	});
 </script>
 
-{#key planet}
+{#snippet planetBody()}
+	<div class="terminal-planet__glow" aria-hidden="true"></div>
+	<div class="terminal-planet__sphere">
+		<div class="terminal-planet__orbit-system" aria-hidden="true">
+			{#if meta.orbit.ring}
+				<div class="terminal-planet__ring"></div>
+				<div class="terminal-planet__ring terminal-planet__ring--outer"></div>
+			{/if}
+			{#each meta.orbit.moons as moon (moon.inset + moon.duration)}
+				<div
+					class="terminal-planet__orbit"
+					class:terminal-planet__orbit--reverse={moon.reverse}
+					style={`--orbit-duration: ${moon.duration}s; --orbit-delay: ${moon.delay ?? 0}s; --orbit-inset: ${moon.inset}; --moon-size: ${moon.size}px; --orbit-angle: ${moon.angle ?? 0}deg;`}
+				>
+					<span class="terminal-planet__moon"></span>
+				</div>
+			{/each}
+		</div>
+		<div class="terminal-planet__spin" aria-hidden="true">
+			<img
+				class="terminal-planet__img"
+				src={meta.src}
+				alt=""
+				aria-hidden="true"
+				width="1254"
+				height="1254"
+				loading="lazy"
+				decoding="async"
+			/>
+		</div>
+	</div>
+{/snippet}
+
+{#if stableSwap}
 	<button
 		type="button"
-		class="terminal-planet"
+		class="terminal-planet terminal-planet--stable"
 		class:terminal-planet--active={activated}
 		style={`--planet-accent: ${meta.accent}; --planet-accent-soft: ${meta.accentSoft}; --planet-tilt-x: ${tiltX}deg; --planet-tilt-y: ${tiltY}deg; --planet-spin: ${spin};`}
 		aria-label={`Interact with ${meta.label}`}
@@ -68,38 +103,25 @@
 		onclick={activatePlanet}
 		onkeydown={handleKeydown}
 	>
-		<div class="terminal-planet__glow" aria-hidden="true"></div>
-		<div class="terminal-planet__sphere">
-			<div class="terminal-planet__orbit-system" aria-hidden="true">
-				{#if meta.orbit.ring}
-					<div class="terminal-planet__ring"></div>
-					<div class="terminal-planet__ring terminal-planet__ring--outer"></div>
-				{/if}
-				{#each meta.orbit.moons as moon (moon.inset + moon.duration)}
-					<div
-						class="terminal-planet__orbit"
-						class:terminal-planet__orbit--reverse={moon.reverse}
-						style={`--orbit-duration: ${moon.duration}s; --orbit-delay: ${moon.delay ?? 0}s; --orbit-inset: ${moon.inset}; --moon-size: ${moon.size}px; --orbit-angle: ${moon.angle ?? 0}deg;`}
-					>
-						<span class="terminal-planet__moon"></span>
-					</div>
-				{/each}
-			</div>
-			<div class="terminal-planet__spin" aria-hidden="true">
-				<img
-					class="terminal-planet__img"
-					src={meta.src}
-					alt=""
-					aria-hidden="true"
-					width="1254"
-					height="1254"
-					loading="lazy"
-					decoding="async"
-				/>
-			</div>
-		</div>
+		{@render planetBody()}
 	</button>
-{/key}
+{:else}
+	{#key planet}
+		<button
+			type="button"
+			class="terminal-planet"
+			class:terminal-planet--active={activated}
+			style={`--planet-accent: ${meta.accent}; --planet-accent-soft: ${meta.accentSoft}; --planet-tilt-x: ${tiltX}deg; --planet-tilt-y: ${tiltY}deg; --planet-spin: ${spin};`}
+			aria-label={`Interact with ${meta.label}`}
+			onpointermove={setTilt}
+			onpointerleave={resetTilt}
+			onclick={activatePlanet}
+			onkeydown={handleKeydown}
+		>
+			{@render planetBody()}
+		</button>
+	{/key}
+{/if}
 
 <style>
 	.terminal-planet {
@@ -345,6 +367,33 @@
 			height: min(100%, 52vw, 24dvh, 13.75rem);
 			max-width: min(100%, 52vw, 24dvh, 13.75rem);
 			max-height: min(100%, 52vw, 24dvh, 13.75rem);
+		}
+	}
+
+	@media (max-width: 768px) {
+		.terminal-planet,
+		.terminal-planet--stable {
+			animation: none;
+		}
+
+		.terminal-planet__sphere {
+			width: min(100%, 72vw, 38dvh, 16.5rem);
+			height: min(100%, 72vw, 38dvh, 16.5rem);
+			max-width: min(100%, 72vw, 38dvh, 16.5rem);
+			max-height: min(100%, 72vw, 38dvh, 16.5rem);
+			transition: transform 0.35s ease-out;
+		}
+
+		.terminal-planet__img {
+			animation: none;
+		}
+
+		.terminal-planet--stable .terminal-planet__img {
+			transition: opacity 0.35s ease-out;
+		}
+
+		.terminal-planet--stable .terminal-planet__orbit-system {
+			transition: opacity 0.35s ease-out;
 		}
 	}
 </style>
