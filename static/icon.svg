@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	viewBox="0 0 64 64"
+	width="64"
+	height="64"
+	role="img"
+	aria-labelledby="title"
+>
+	<title id="title">CodebyLiam icon</title>
+	<defs>
+		<linearGradient id="planet-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" stop-color="#67e8f9" />
+			<stop offset="50%" stop-color="#22d3ee" />
+			<stop offset="100%" stop-color="#2dd4bf" />
+		</linearGradient>
+		<linearGradient id="shell-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+			<stop offset="0%" stop-color="#0f172a" />
+			<stop offset="100%" stop-color="#1e293b" />
+		</linearGradient>
+	</defs>
+	<circle cx="32" cy="32" r="30" fill="url(#planet-gradient)" />
+	<circle cx="32" cy="32" r="22" fill="none" stroke="rgba(15,23,42,0.35)" stroke-width="3" />
+	<path
+		d="M16 38 Q 21 22 40 20 Q 52 19 50 31 Q 49 44 34 44 Q 24 44 16 38"
+		fill="url(#shell-gradient)"
+	/>
+	<path
+		d="M38 30h6v8h-6zm-6 0h6v18h-6z"
+		fill="#ffffff"
+		opacity="0.92"
+	/>
+</svg>

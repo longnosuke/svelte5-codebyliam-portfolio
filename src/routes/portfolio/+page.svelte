@@ -42,10 +42,6 @@
 
 <div class="page-shell">
 	<TerminalWindow title="~/work" command="ls -la ./projects">
-		<p class="terminal__output intro">
-			Flagship apps and client ecosystems first; WordPress storefronts grouped below. Open a
-			slug for problem, stack, and solution.
-		</p>
 		<p class="terminal__output terminal__output--muted">
 			{filtered.length} entries · shipped by {site.alias}
 		</p>
@@ -209,12 +205,17 @@
 				{/each}
 			</ul>
 		{/if}
+
+		<p class="terminal__output intro">
+			Flagship apps and client ecosystems first; WordPress storefronts grouped below. Open a
+			slug for problem, stack, and solution.
+		</p>
 	</TerminalWindow>
 </div>
 
 <style>
 	.intro {
-		margin: 0 0 0.75rem;
+		margin: 1.75rem 0 0;
 		max-width: 42rem;
 		line-height: 1.65;
 		color: var(--color-text-muted);

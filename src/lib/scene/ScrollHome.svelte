@@ -3,7 +3,6 @@
 	import { onMount } from 'svelte';
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import ArrowRight from '@lucide/svelte/icons/arrow-right';
 	import Mail from '@lucide/svelte/icons/mail';
 	import ScrollSpaceBackdrop from '$lib/components/ScrollSpaceBackdrop.svelte';
 	import SceneCanvas from './SceneCanvas.svelte';
@@ -161,18 +160,12 @@
 						<TerminalTechTags />
 					{/if}
 
-					{#if 'primaryCta' in current && current.primaryCta}
+					{#if 'secondaryCta' in current && current.secondaryCta}
 						<div class="scroll-home__actions">
-							<a class="btn btn--primary" href={current.primaryCta.href}>
-								{current.primaryCta.label}
-								<ArrowRight size={18} strokeWidth={2} aria-hidden="true" />
+							<a class="btn scroll-home__btn-outline" href={current.secondaryCta.href}>
+								<Mail size={18} strokeWidth={2} aria-hidden="true" />
+								{current.secondaryCta.label}
 							</a>
-							{#if current.secondaryCta}
-								<a class="btn scroll-home__btn-outline" href={current.secondaryCta.href}>
-									<Mail size={18} strokeWidth={2} aria-hidden="true" />
-									{current.secondaryCta.label}
-								</a>
-							{/if}
 						</div>
 					{:else if 'linkCta' in current && current.linkCta}
 						<a class="btn" href={current.linkCta.href}>{current.linkCta.label}</a>
@@ -199,18 +192,12 @@
 							<TerminalTechTags />
 						{/if}
 
-						{#if 'primaryCta' in current && current.primaryCta}
+						{#if 'secondaryCta' in current && current.secondaryCta}
 							<div class="scroll-home__actions">
-								<a class="btn btn--primary" href={current.primaryCta.href}>
-									{current.primaryCta.label}
-									<ArrowRight size={18} strokeWidth={2} aria-hidden="true" />
+								<a class="btn scroll-home__btn-outline" href={current.secondaryCta.href}>
+									<Mail size={18} strokeWidth={2} aria-hidden="true" />
+									{current.secondaryCta.label}
 								</a>
-								{#if current.secondaryCta}
-									<a class="btn scroll-home__btn-outline" href={current.secondaryCta.href}>
-										<Mail size={18} strokeWidth={2} aria-hidden="true" />
-										{current.secondaryCta.label}
-									</a>
-								{/if}
 							</div>
 						{:else if 'linkCta' in current && current.linkCta}
 							<a class="btn" href={current.linkCta.href}>{current.linkCta.label}</a>
@@ -290,10 +277,24 @@
 		background: transparent;
 	}
 
+	/* Desktop split layout only (900px+); below that, TerminalPlanet tablet rules apply */
+	@media (min-width: 900px) {
+		.scroll-home__stage :global(.scroll-home__terminal .terminal-planet) {
+			max-height: 320px;
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal .terminal-planet__sphere) {
+			width: min(100%, 300px);
+			height: min(100%, 300px);
+			max-width: min(100%, 300px);
+			max-height: min(100%, 300px);
+		}
+	}
+
 	@media (max-width: 768px) {
 		.scroll-home {
 			--section-scroll: 100svh;
-			--scroll-home-planet-max: min(22dvh, 8.75rem);
+			--scroll-home-planet-max: min(30dvh, 11.5rem);
 		}
 
 		.scroll-home__track {
@@ -354,21 +355,22 @@
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--whoami) {
-			--scroll-home-planet-max: min(20dvh, 7.5rem);
+			--scroll-home-planet-max: min(28dvh, 10.5rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--work) {
-			--scroll-home-planet-max: min(24dvh, 9rem);
+			--scroll-home-planet-max: min(32dvh, 12rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--contact) {
-			--scroll-home-planet-max: min(17dvh, 6.75rem);
+			--scroll-home-planet-max: min(26dvh, 9.75rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__aside) {
 			order: 2;
-			flex: 0 0 auto;
+			flex: 0 0 var(--scroll-home-planet-max);
 			min-height: 0;
+			height: var(--scroll-home-planet-max);
 			max-height: var(--scroll-home-planet-max);
 			align-items: center;
 			justify-content: center;
@@ -376,15 +378,17 @@
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal-planet) {
+			width: 100%;
 			min-height: 0;
+			height: 100%;
 			max-height: 100%;
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal-planet__sphere) {
-			width: min(100%, 62vw, var(--scroll-home-planet-max), 30dvh);
-			height: min(100%, 62vw, var(--scroll-home-planet-max), 30dvh);
-			max-width: min(100%, 62vw, var(--scroll-home-planet-max), 30dvh);
-			max-height: min(100%, 62vw, var(--scroll-home-planet-max), 30dvh);
+			width: min(100%, 78vw, var(--scroll-home-planet-max));
+			height: min(100%, 78vw, var(--scroll-home-planet-max));
+			max-width: min(100%, 78vw, var(--scroll-home-planet-max));
+			max-height: min(100%, 78vw, var(--scroll-home-planet-max));
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__footer) {
@@ -424,21 +428,21 @@
 		}
 	}
 
-	@media (max-width: 768px) and (max-height: 700px) {
+	@media (max-width: 768px) and (max-height: 640px) {
 		.scroll-home {
-			--scroll-home-planet-max: min(19dvh, 7.25rem);
+			--scroll-home-planet-max: min(26dvh, 10rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--whoami) {
-			--scroll-home-planet-max: min(17dvh, 6.5rem);
+			--scroll-home-planet-max: min(24dvh, 9.25rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--work) {
-			--scroll-home-planet-max: min(20dvh, 7.5rem);
+			--scroll-home-planet-max: min(28dvh, 10.5rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--contact) {
-			--scroll-home-planet-max: min(15dvh, 6rem);
+			--scroll-home-planet-max: min(22dvh, 8.5rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {
@@ -467,15 +471,19 @@
 
 	@media (max-width: 768px) and (max-height: 600px) {
 		.scroll-home {
-			--scroll-home-planet-max: min(16dvh, 6.25rem);
+			--scroll-home-planet-max: min(22dvh, 8.5rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--whoami) {
-			--scroll-home-planet-max: min(14dvh, 5.5rem);
+			--scroll-home-planet-max: min(20dvh, 7.75rem);
+		}
+
+		.scroll-home__stage :global(.scroll-home__terminal--work) {
+			--scroll-home-planet-max: min(24dvh, 9rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal--contact) {
-			--scroll-home-planet-max: min(12dvh, 5rem);
+			--scroll-home-planet-max: min(18dvh, 7rem);
 		}
 
 		.scroll-home__stage :global(.scroll-home__terminal .terminal__body) {

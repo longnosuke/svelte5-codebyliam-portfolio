@@ -7,7 +7,6 @@ export const homeStats = [
 ] as const;
 
 export const homeTech = [
-  { name: "Svelte", icon: "svelte" as const },
   { name: "RubyOnRails", icon: "typescript" as const },
   { name: "WordPress", icon: "wordpress" as const },
 ] as const;
@@ -124,7 +123,6 @@ export const homeSections = [
     ],
     showBio: false,
     showTech: false,
-    primaryCta: { label: "View Projects", href: "/portfolio" },
     secondaryCta: { label: "Contact Me", href: "/contact" },
   },
 ] as const;
